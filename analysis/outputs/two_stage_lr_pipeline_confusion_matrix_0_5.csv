@@ -1,0 +1,4 @@
+,pred_REST,pred_LEFT,pred_RIGHT
+true_REST,443,851,718
+true_LEFT,156,283,224
+true_RIGHT,160,144,319

@@ -1,0 +1,21 @@
+{
+  "board": "synthetic",
+  "calibration_sec": 1.0,
+  "created_at_utc": "2026-04-08T15:24:14.032437+00:00",
+  "direction_artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/clean_left_right_window_model.pkl",
+  "jaw_artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/realtime_clench_model.pkl",
+  "live_channel_quality": [],
+  "mode": "LIVE",
+  "playback_file": "",
+  "prompt_timeout_sec": 1.0,
+  "sequence": [
+    "LEFT",
+    "REST",
+    "RIGHT",
+    "REST",
+    "JAW",
+    "REST"
+  ],
+  "sequence_type": "fixed",
+  "serial_port": ""
+}

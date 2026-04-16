@@ -1,0 +1,25 @@
+{
+  "created_at_utc": "2026-04-08T15:23:04.965921+00:00",
+  "csv_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/EEG_LR/LR-3-15-26-(04).csv",
+  "direction_artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/clean_left_right_window_model.pkl",
+  "fs_hz": 249.24554314238173,
+  "jaw_artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/realtime_clench_model.pkl",
+  "mode": "REPLAY",
+  "sampling_note": {
+    "duration_from_samples_sec": 849.7604303359985,
+    "duration_from_timestamp_sec": 1173.7065389156342,
+    "fs_median_hz": 249.24554314238173,
+    "fs_overall_hz": 180.45226210946757,
+    "fs_used_hz": 249.24554314238173,
+    "median_timestamp_step_sec": 0.004012107849121094,
+    "notes": [
+      "Timestamp has 35 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration.",
+      "Overall timestamp-derived rate (180.45 Hz) disagrees with median-step rate (249.25 Hz)."
+    ],
+    "timestamp_jump_count": 35,
+    "timestamp_missing_fraction": 0.0,
+    "timestamp_negative_count": 0,
+    "timestamp_present": true,
+    "timestamp_zero_count": 0
+  }
+}

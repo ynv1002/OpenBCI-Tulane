@@ -1,0 +1,1 @@
+run_time_sec,event_time_sec,event_time_relative_sec,predicted_class,accepted,source,confidence,left_confidence,right_confidence,jaw_confidence,peak_value,peak_prominence,assigned_block_id,assigned_side,inside_marker_block,ground_truth_state,prompt_id,target_class,notes

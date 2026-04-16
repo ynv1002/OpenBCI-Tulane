@@ -1,0 +1,142 @@
+{
+  "audit_issues": [
+    "movement 1 produced 27 interval(s); protocol expected about 10",
+    "movement 2 produced 27 interval(s); protocol expected about 10",
+    "movement1 median duration is 5.51 s instead of the expected 8 s",
+    "movement2 median duration is 5.89 s instead of the expected 8 s",
+    "Timestamp has 9 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration.",
+    "Overall timestamp-derived rate (148.12 Hz) disagrees with median-step rate (249.19 Hz)."
+  ],
+  "channel_quality": [
+    {
+      "centered_std": 44118.018955543776,
+      "channel": "Channel_1",
+      "dominant_value_fraction": 0.02944796307146688,
+      "max_abs_value": 187500.0,
+      "max_value": 187500.0,
+      "min_value": -172525.29234,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.02944796307146688,
+      "reasons": "rail fraction 0.0294",
+      "status": "questionable"
+    },
+    {
+      "centered_std": 171084.0807721793,
+      "channel": "Channel_2",
+      "dominant_value_fraction": 0.6640098707563343,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.9271194690128314,
+      "reasons": "rail fraction 0.9271",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 44878.59760666578,
+      "channel": "Channel_3",
+      "dominant_value_fraction": 0.017264523249289298,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.019245494762360923,
+      "reasons": "rail fraction 0.0192",
+      "status": "questionable"
+    },
+    {
+      "centered_std": 55154.66248862845,
+      "channel": "Channel_4",
+      "dominant_value_fraction": 0.040778872117283434,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.06044598209995381,
+      "reasons": "rail fraction 0.0604",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 186164.66966183306,
+      "channel": "Channel_5",
+      "dominant_value_fraction": 0.4894952707792751,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.9714851706146592,
+      "reasons": "rail fraction 0.9715",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 95776.94090608947,
+      "channel": "Channel_6",
+      "dominant_value_fraction": 0.16646670944821107,
+      "max_abs_value": 187500.0,
+      "max_value": 187500.0,
+      "min_value": -102067.877599,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.16646670944821107,
+      "reasons": "rail fraction 0.1665",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 40884.36832206841,
+      "channel": "Channel_7",
+      "dominant_value_fraction": 0.015147146811999914,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.02872563699549554,
+      "reasons": "rail fraction 0.0287",
+      "status": "questionable"
+    },
+    {
+      "centered_std": 41637.99091529887,
+      "channel": "Channel_8",
+      "dominant_value_fraction": 0.015299052295787877,
+      "max_abs_value": 187500.022352,
+      "max_value": 187500.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.019980221285988423,
+      "reasons": "rail fraction 0.0200",
+      "status": "questionable"
+    }
+  ],
+  "count_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "file": "LR-3-8-26-(02).csv",
+  "issues": [
+    "movement 1 produced 27 interval(s); protocol expected about 10",
+    "movement 2 produced 27 interval(s); protocol expected about 10",
+    "movement1 median duration is 5.51 s instead of the expected 8 s",
+    "movement2 median duration is 5.89 s instead of the expected 8 s",
+    "Timestamp has 9 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration.",
+    "Overall timestamp-derived rate (148.12 Hz) disagrees with median-step rate (249.19 Hz)."
+  ],
+  "pairing_issues": [],
+  "plot_warning": null,
+  "sampling_note": {
+    "duration_from_samples_sec": 1294.489242553711,
+    "duration_from_timestamp_sec": 2177.7932138442993,
+    "fs_median_hz": 249.18631178707224,
+    "fs_overall_hz": 148.11690933254138,
+    "fs_used_hz": 249.18631178707224,
+    "median_timestamp_step_sec": 0.0040130615234375,
+    "notes": [
+      "Timestamp has 9 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration.",
+      "Overall timestamp-derived rate (148.12 Hz) disagrees with median-step rate (249.19 Hz)."
+    ],
+    "timestamp_jump_count": 9,
+    "timestamp_missing_fraction": 0.0,
+    "timestamp_negative_count": 0,
+    "timestamp_present": true,
+    "timestamp_zero_count": 0
+  }
+}

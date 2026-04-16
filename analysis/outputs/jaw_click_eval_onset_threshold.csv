@@ -1,0 +1,4 @@
+filename,file_path,parsed_date,session_rank,split_role,reference_onsets,detected_clicks,matched_clicks,missed_onsets,extra_clicks,precision,recall,event_f1,median_lag_ms
+HR-2-27-26-(01).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/EMG_JvsN/HR-2-27-26-(01).csv,2026-02-27,1,train,157,22,17,140,5,0.7727272727272727,0.10828025477707007,0.1899441340782123,-4.011869430541992
+HR-3-15-26-(03).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/EMG_JvsN/HR-3-15-26-(03).csv,2026-03-15,3,test,124,18,10,114,8,0.5555555555555556,0.08064516129032258,0.1408450704225352,-2.00653076171875
+HR-3-8-26-(02).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/EMG_JvsN/HR-3-8-26-(02).csv,2026-03-08,2,train,95,16,6,89,10,0.375,0.06315789473684211,0.10810810810810811,84.2742919921875

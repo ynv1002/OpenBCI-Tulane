@@ -1,0 +1,93 @@
+{
+  "best_model": {
+    "accuracy": 0.9641873278236914,
+    "confusion_matrix_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/confusion_jaw_binary_clench_vs_nonclench_LogisticRegression.csv",
+    "macro_f1": 0.9619512195121951,
+    "name": "LogisticRegression"
+  },
+  "excluded_channels": {
+    "Channel_2": "unsafe in training sessions: HR-2-27-26-(01).csv (rail fraction 0.4969), HR-3-8-26-(02).csv (dominant exact value fraction 1.0000; rail fraction 1.0000)",
+    "Channel_5": "unsafe in training sessions: HR-2-27-26-(01).csv (dominant exact value fraction 1.0000; rail fraction 1.0000), HR-3-8-26-(02).csv (rail fraction 1.0000)"
+  },
+  "family": "jaw",
+  "feature_columns": [
+    "Channel_1_mean",
+    "Channel_1_std",
+    "Channel_1_rms",
+    "Channel_1_ptp",
+    "Channel_1_var",
+    "Channel_1_energy",
+    "Channel_3_mean",
+    "Channel_3_std",
+    "Channel_3_rms",
+    "Channel_3_ptp",
+    "Channel_3_var",
+    "Channel_3_energy",
+    "Channel_4_mean",
+    "Channel_4_std",
+    "Channel_4_rms",
+    "Channel_4_ptp",
+    "Channel_4_var",
+    "Channel_4_energy",
+    "Channel_6_mean",
+    "Channel_6_std",
+    "Channel_6_rms",
+    "Channel_6_ptp",
+    "Channel_6_var",
+    "Channel_6_energy",
+    "Channel_7_mean",
+    "Channel_7_std",
+    "Channel_7_rms",
+    "Channel_7_ptp",
+    "Channel_7_var",
+    "Channel_7_energy",
+    "Channel_8_mean",
+    "Channel_8_std",
+    "Channel_8_rms",
+    "Channel_8_ptp",
+    "Channel_8_var",
+    "Channel_8_energy"
+  ],
+  "feature_count": 36,
+  "models": {
+    "LDA": {
+      "accuracy": 0.9173553719008265,
+      "confusion_matrix_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/confusion_jaw_binary_clench_vs_nonclench_LDA.csv",
+      "macro_f1": 0.9084873949579833
+    },
+    "LogisticRegression": {
+      "accuracy": 0.9641873278236914,
+      "confusion_matrix_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/confusion_jaw_binary_clench_vs_nonclench_LogisticRegression.csv",
+      "macro_f1": 0.9619512195121951
+    },
+    "RandomForest": {
+      "accuracy": 0.8126721763085399,
+      "confusion_matrix_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/confusion_jaw_binary_clench_vs_nonclench_RandomForest.csv",
+      "macro_f1": 0.7653612167300381
+    }
+  },
+  "overlap": 0.5,
+  "selected_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_4",
+    "Channel_6",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "task_name": "binary_clench_vs_nonclench",
+  "test_class_counts": {
+    "CLENCH": 131,
+    "NON_CLENCH": 232
+  },
+  "test_file": "HR-3-15-26-(03).csv",
+  "train_class_counts": {
+    "CLENCH": 352,
+    "NON_CLENCH": 703
+  },
+  "train_files": [
+    "HR-2-27-26-(01).csv",
+    "HR-3-8-26-(02).csv"
+  ],
+  "window_sec": 2.0
+}

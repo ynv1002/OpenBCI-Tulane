@@ -1,0 +1,79 @@
+{
+  "gate_pass": false,
+  "gate_thresholds": {
+    "exact_accuracy": 0.55,
+    "mae": 1.0
+  },
+  "per_file_rows": [
+    {
+      "constrained_exact_accuracy": 0.5833333333333334,
+      "constrained_mae": 0.8333333333333334,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "trial_count": 12
+    },
+    {
+      "constrained_exact_accuracy": 0.3333333333333333,
+      "constrained_mae": 0.9166666666666666,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "trial_count": 12
+    }
+  ],
+  "pooled_accuracy": 0.4583333333333333,
+  "pooled_mae": 0.875,
+  "summary_rows": [
+    {
+      "constrained_exact_accuracy": 0.5,
+      "constrained_mae": 1.0,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "label": "LEFT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.5,
+      "unconstrained_mae": 1.0
+    },
+    {
+      "constrained_exact_accuracy": 0.6666666666666666,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "label": "RIGHT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.6666666666666666,
+      "unconstrained_mae": 0.6666666666666666
+    },
+    {
+      "constrained_exact_accuracy": 0.3333333333333333,
+      "constrained_mae": 1.1666666666666667,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "label": "LEFT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.3333333333333333,
+      "unconstrained_mae": 1.1666666666666667
+    },
+    {
+      "constrained_exact_accuracy": 0.3333333333333333,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "label": "RIGHT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.3333333333333333,
+      "unconstrained_mae": 0.6666666666666666
+    },
+    {
+      "constrained_exact_accuracy": 0.4166666666666667,
+      "constrained_mae": 1.0833333333333333,
+      "filename": "__pooled__",
+      "label": "LEFT",
+      "trial_count": 12,
+      "unconstrained_exact_accuracy": 0.4166666666666667,
+      "unconstrained_mae": 1.0833333333333333
+    },
+    {
+      "constrained_exact_accuracy": 0.5,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "__pooled__",
+      "label": "RIGHT",
+      "trial_count": 12,
+      "unconstrained_exact_accuracy": 0.5,
+      "unconstrained_mae": 0.6666666666666666
+    }
+  ]
+}

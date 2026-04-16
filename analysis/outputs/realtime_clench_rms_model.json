@@ -1,0 +1,57 @@
+{
+  "artifact_version": 1,
+  "created_at_utc": "2026-03-28T06:03:02.478403+00:00",
+  "family": "jaw",
+  "feature_columns": [
+    "Channel_1_rms",
+    "Channel_3_rms",
+    "Channel_4_rms",
+    "Channel_6_rms",
+    "Channel_7_rms",
+    "Channel_8_rms"
+  ],
+  "feature_type": "per_channel_rms",
+  "metrics": {
+    "argmax_accuracy": 0.9397341211225997,
+    "argmax_macro_f1": 0.9334656812642503,
+    "threshold_confusion_matrix": [
+      [
+        2110,
+        155
+      ],
+      [
+        49,
+        1071
+      ]
+    ],
+    "threshold_f1": 0.9130434782608695,
+    "threshold_precision": 0.8735725938009788,
+    "threshold_recall": 0.95625
+  },
+  "model_name": "LogisticRegression",
+  "overlap": 0.5,
+  "rearm_threshold": 0.25,
+  "selected_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_4",
+    "Channel_6",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "test_class_counts": {
+    "CLENCH": 1120,
+    "NON_CLENCH": 2265
+  },
+  "test_file": "HR-3-15-26-(03).csv",
+  "threshold": 0.5,
+  "train_class_counts": {
+    "CLENCH": 3222,
+    "NON_CLENCH": 6697
+  },
+  "train_files": [
+    "HR-2-27-26-(01).csv",
+    "HR-3-8-26-(02).csv"
+  ],
+  "window_sec": 0.25
+}

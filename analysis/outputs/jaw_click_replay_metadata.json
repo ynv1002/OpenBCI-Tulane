@@ -1,0 +1,43 @@
+{
+  "evaluation_config": {
+    "match_post_sec": 0.45,
+    "match_pre_sec": 0.15
+  },
+  "event_config": {
+    "active_quantile": 0.75,
+    "inactive_quantile": 0.9,
+    "manual_active_threshold_uv": null,
+    "manual_release_threshold_uv": null,
+    "minimum_active_duration_sec": 0.15,
+    "minimum_peak_distance_sec": 0.35,
+    "minimum_peak_prominence_uv": 0.05,
+    "minimum_reference_gap_uv": 0.05,
+    "offset_duration_sec": 0.2,
+    "onset_duration_sec": 0.2,
+    "peak_prominence_scale": 0.25,
+    "release_threshold_mix": 0.15,
+    "repeated_fallback_mode": "coarse_single_event",
+    "smoothing_sec": 0.25,
+    "threshold_mix": 0.35
+  },
+  "excluded_channels": {
+    "Channel_2": "unsafe in training sessions: HR-2-27-26-(01).csv (rail fraction 0.4969), HR-3-8-26-(02).csv (dominant exact value fraction 1.0000; rail fraction 1.0000)",
+    "Channel_5": "unsafe in training sessions: HR-2-27-26-(01).csv (dominant exact value fraction 1.0000; rail fraction 1.0000), HR-3-8-26-(02).csv (rail fraction 1.0000)"
+  },
+  "reference_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/jaw_click_reference_onsets.csv",
+  "score_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/jaw_click_replay_scores.csv",
+  "selected_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_4",
+    "Channel_6",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "summary_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/jaw_click_strategy_summary.csv",
+  "tuning_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/jaw_click_strategy_tuning.csv",
+  "window_config": {
+    "overlap": 0.5,
+    "window_sec": 0.2
+  }
+}

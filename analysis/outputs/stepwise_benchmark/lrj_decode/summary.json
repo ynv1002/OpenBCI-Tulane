@@ -1,0 +1,95 @@
+{
+  "eeg_bridge_metrics": {
+    "constrained_exact_accuracy": 0.45833333333333337,
+    "constrained_mae": 0.875
+  },
+  "jaw_gate_pass": false,
+  "jaw_gate_thresholds": {
+    "exact_accuracy": 0.6,
+    "mae": 1.0,
+    "per_file_floor": 0.45
+  },
+  "summary_rows": [
+    {
+      "constrained_exact_accuracy": 0.5,
+      "constrained_mae": 1.0,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "label": "LEFT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.5,
+      "unconstrained_mae": 1.0
+    },
+    {
+      "constrained_exact_accuracy": 0.6666666666666666,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "label": "RIGHT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.6666666666666666,
+      "unconstrained_mae": 0.6666666666666666
+    },
+    {
+      "constrained_exact_accuracy": 0.5,
+      "constrained_mae": 1.1666666666666667,
+      "filename": "Ben-LRJ(1-6)-4:9.csv",
+      "label": "JAW",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.5,
+      "unconstrained_mae": 1.1666666666666667
+    },
+    {
+      "constrained_exact_accuracy": 0.3333333333333333,
+      "constrained_mae": 1.1666666666666667,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "label": "LEFT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.3333333333333333,
+      "unconstrained_mae": 1.1666666666666667
+    },
+    {
+      "constrained_exact_accuracy": 0.3333333333333333,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "label": "RIGHT",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.3333333333333333,
+      "unconstrained_mae": 0.6666666666666666
+    },
+    {
+      "constrained_exact_accuracy": 0.6666666666666666,
+      "constrained_mae": 0.3333333333333333,
+      "filename": "Yaniv-LRJ(6)-4:7.csv",
+      "label": "JAW",
+      "trial_count": 6,
+      "unconstrained_exact_accuracy": 0.6666666666666666,
+      "unconstrained_mae": 0.3333333333333333
+    },
+    {
+      "constrained_exact_accuracy": 0.4166666666666667,
+      "constrained_mae": 1.0833333333333333,
+      "filename": "__pooled__",
+      "label": "LEFT",
+      "trial_count": 12,
+      "unconstrained_exact_accuracy": 0.4166666666666667,
+      "unconstrained_mae": 1.0833333333333333
+    },
+    {
+      "constrained_exact_accuracy": 0.5,
+      "constrained_mae": 0.6666666666666666,
+      "filename": "__pooled__",
+      "label": "RIGHT",
+      "trial_count": 12,
+      "unconstrained_exact_accuracy": 0.5,
+      "unconstrained_mae": 0.6666666666666666
+    },
+    {
+      "constrained_exact_accuracy": 0.5833333333333334,
+      "constrained_mae": 0.75,
+      "filename": "__pooled__",
+      "label": "JAW",
+      "trial_count": 12,
+      "unconstrained_exact_accuracy": 0.5833333333333334,
+      "unconstrained_mae": 0.75
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "kept_events_inside_blocks": 375,
+  "kept_events_outside_blocks": 15,
+  "overall_inside_fraction": 0.9615384615384616,
+  "subset_name": "main",
+  "summary_rows": [
+    {
+      "audit_issue_count": 3,
+      "count_channels": "Channel_1, Channel_3, Channel_4, Channel_6, Channel_7, Channel_8",
+      "count_reasonableness_note": "Per-block counts look broadly reasonable; median detected count is 6.0.",
+      "event_alignment_note": "Event alignment is directionally usable, but outside-block events still need review before classification.",
+      "excluded_early_peak_count": 1,
+      "file": "LR-2-27-26-(01).csv",
+      "inside_block_fraction": 0.9533333333333334,
+      "kept_events_inside_blocks": 143,
+      "kept_events_outside_blocks": 7,
+      "left_block_count": 12,
+      "right_block_count": 11,
+      "total_kept_events": 150,
+      "trust_tier": "main",
+      "valid_block_count": 23
+    },
+    {
+      "audit_issue_count": 8,
+      "count_channels": "Channel_1, Channel_3, Channel_4, Channel_6, Channel_7, Channel_8",
+      "count_reasonableness_note": "Per-block counts are mixed but mostly usable; 0 block(s) had no kept events.",
+      "event_alignment_note": "Event alignment is directionally usable, but outside-block events still need review before classification.",
+      "excluded_early_peak_count": 1,
+      "file": "LR-3-15-26-(04).csv",
+      "inside_block_fraction": 0.9666666666666667,
+      "kept_events_inside_blocks": 232,
+      "kept_events_outside_blocks": 8,
+      "left_block_count": 20,
+      "right_block_count": 19,
+      "total_kept_events": 240,
+      "trust_tier": "main",
+      "valid_block_count": 39
+    }
+  ]
+}

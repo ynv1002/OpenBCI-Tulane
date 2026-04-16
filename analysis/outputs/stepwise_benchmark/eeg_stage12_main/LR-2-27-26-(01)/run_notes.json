@@ -1,0 +1,137 @@
+{
+  "audit_issues": [
+    "movement 1 produced 12 interval(s); protocol expected about 10",
+    "movement 2 produced 11 interval(s); protocol expected about 10",
+    "Timestamp has 4 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration."
+  ],
+  "channel_quality": [
+    {
+      "centered_std": 7734.068310493746,
+      "channel": "Channel_1",
+      "dominant_value_fraction": 3.944150824327522e-05,
+      "max_abs_value": 80460.91562,
+      "max_value": 0.0,
+      "min_value": -80460.91562,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    },
+    {
+      "centered_std": 45065.87082687939,
+      "channel": "Channel_2",
+      "dominant_value_fraction": 0.14600457521495622,
+      "max_abs_value": 187500.022352,
+      "max_value": 0.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.14601246351660488,
+      "reasons": "rail fraction 0.1460",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 4989.129071862972,
+      "channel": "Channel_3",
+      "dominant_value_fraction": 7.888301648655044e-05,
+      "max_abs_value": 39818.582215,
+      "max_value": 0.0,
+      "min_value": -39818.582215,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    },
+    {
+      "centered_std": 9308.830230169806,
+      "channel": "Channel_4",
+      "dominant_value_fraction": 3.944150824327522e-05,
+      "max_abs_value": 90033.89955,
+      "max_value": 0.0,
+      "min_value": -90033.89955,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    },
+    {
+      "centered_std": 526.6148221948156,
+      "channel": "Channel_5",
+      "dominant_value_fraction": 0.9999921116983513,
+      "max_abs_value": 187500.022352,
+      "max_value": 0.0,
+      "min_value": -187500.022352,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.9999921116983513,
+      "reasons": "dominant exact value fraction 1.0000; rail fraction 1.0000",
+      "status": "unsafe"
+    },
+    {
+      "centered_std": 7719.067826579742,
+      "channel": "Channel_6",
+      "dominant_value_fraction": 4.732980989193027e-05,
+      "max_abs_value": 80956.274981,
+      "max_value": 0.0,
+      "min_value": -80956.274981,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    },
+    {
+      "centered_std": 6575.804372105547,
+      "channel": "Channel_7",
+      "dominant_value_fraction": 5.521811154058531e-05,
+      "max_abs_value": 53228.421894,
+      "max_value": 0.0,
+      "min_value": -53228.421894,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    },
+    {
+      "centered_std": 5368.374285423204,
+      "channel": "Channel_8",
+      "dominant_value_fraction": 6.310641318924035e-05,
+      "max_abs_value": 35767.17207,
+      "max_value": 0.0,
+      "min_value": -35767.17207,
+      "missing_fraction": 0.0,
+      "rail_fraction": 0.0,
+      "reasons": "",
+      "status": "safe"
+    }
+  ],
+  "count_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_4",
+    "Channel_6",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "file": "LR-2-27-26-(01).csv",
+  "issues": [
+    "movement 1 produced 12 interval(s); protocol expected about 10",
+    "movement 2 produced 11 interval(s); protocol expected about 10",
+    "Timestamp has 4 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration."
+  ],
+  "pairing_issues": [],
+  "plot_warning": null,
+  "sampling_note": {
+    "duration_from_samples_sec": 508.7358093261719,
+    "duration_from_timestamp_sec": null,
+    "fs_median_hz": 249.18631178707224,
+    "fs_overall_hz": null,
+    "fs_used_hz": 249.18631178707224,
+    "median_timestamp_step_sec": 0.0040130615234375,
+    "notes": [
+      "Timestamp has 4 jump(s) larger than 5x the median step; windowing uses the median step instead of total-span duration."
+    ],
+    "timestamp_jump_count": 4,
+    "timestamp_missing_fraction": 7.888301648655044e-06,
+    "timestamp_negative_count": 0,
+    "timestamp_present": true,
+    "timestamp_zero_count": 0
+  }
+}

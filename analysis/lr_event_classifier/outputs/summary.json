@@ -1,0 +1,90 @@
+{
+  "best_model": {
+    "accuracy": 0.5253333333333333,
+    "confusion_matrix": {
+      "pred_LEFT": {
+        "true_LEFT": 88,
+        "true_RIGHT": 83
+      },
+      "pred_RIGHT": {
+        "true_LEFT": 95,
+        "true_RIGHT": 109
+      }
+    },
+    "confusion_matrix_csv": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/lr_event_classifier/outputs/confusion_pooled_LogisticRegression.csv",
+    "macro_f1": 0.5238400958739942,
+    "name": "LogisticRegression"
+  },
+  "event_window_sec": 0.5,
+  "excluded_files": [
+    "LR-3-8-26-(02).csv",
+    "LR-3-8-26-(03).csv"
+  ],
+  "feature_columns": [
+    "Channel_1_rms",
+    "Channel_1_mav",
+    "Channel_1_variance",
+    "Channel_1_peak_abs",
+    "Channel_1_waveform_length",
+    "Channel_3_rms",
+    "Channel_3_mav",
+    "Channel_3_variance",
+    "Channel_3_peak_abs",
+    "Channel_3_waveform_length",
+    "Channel_4_rms",
+    "Channel_4_mav",
+    "Channel_4_variance",
+    "Channel_4_peak_abs",
+    "Channel_4_waveform_length",
+    "Channel_6_rms",
+    "Channel_6_mav",
+    "Channel_6_variance",
+    "Channel_6_peak_abs",
+    "Channel_6_waveform_length",
+    "Channel_7_rms",
+    "Channel_7_mav",
+    "Channel_7_variance",
+    "Channel_7_peak_abs",
+    "Channel_7_waveform_length",
+    "Channel_8_rms",
+    "Channel_8_mav",
+    "Channel_8_variance",
+    "Channel_8_peak_abs",
+    "Channel_8_waveform_length",
+    "Channel_1_rms_asym",
+    "Channel_1_mav_asym",
+    "Channel_3_rms_asym",
+    "Channel_3_mav_asym",
+    "Channel_4_rms_asym",
+    "Channel_4_mav_asym",
+    "Channel_6_rms_asym",
+    "Channel_6_mav_asym",
+    "Channel_7_rms_asym",
+    "Channel_7_mav_asym",
+    "Channel_8_rms_asym",
+    "Channel_8_mav_asym",
+    "aggregate_rms_mean",
+    "aggregate_rms_std",
+    "aggregate_rms_max",
+    "aggregate_rms_waveform_length"
+  ],
+  "feature_count": 46,
+  "files_used": [
+    "LR-2-27-26-(01).csv",
+    "LR-3-15-26-(04).csv"
+  ],
+  "sample_counts": {
+    "LEFT": 183,
+    "RIGHT": 192,
+    "total": 375
+  },
+  "selected_channels": [
+    "Channel_1",
+    "Channel_3",
+    "Channel_4",
+    "Channel_6",
+    "Channel_7",
+    "Channel_8"
+  ],
+  "train_test_strategy": "Two-fold leave-one-session-out cross-session evaluation across the two high-trust Yaniv runs."
+}

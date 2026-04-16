@@ -1,0 +1,8 @@
+.DS_Store
+.matplotlib-cache/
+__pycache__/
+*.pyc
+error.log
+ml_output.log
+analysis/outputs/jaw_event_samples.csv
+analysis/outputs/stepwise_benchmark/jaw_stage1/jaw_event_samples.csv
