@@ -158,6 +158,63 @@ def _selected_board_rows(selected_channels: Sequence[str], eeg_rows: Sequence[in
     return rows
 
 
+def probe_live_board_connection(
+    *,
+    board: str,
+    serial_port: str = "",
+    playback_file: Path | None = None,
+) -> dict[str, Any]:
+    try:
+        from brainflow.board_shim import BoardIds, BoardShim, BrainFlowInputParams
+    except ModuleNotFoundError as exc:
+        raise RuntimeError("brainflow is required for live mode.") from exc
+
+    params = BrainFlowInputParams()
+    if serial_port:
+        params.serial_port = serial_port
+    if board == "playback":
+        if playback_file is None:
+            raise RuntimeError("--playback-file is required for playback board mode.")
+        params.file = str(playback_file.resolve())
+        params.master_board = int(BoardIds.CYTON_BOARD.value)
+
+    if board == "cyton":
+        board_id = int(BoardIds.CYTON_BOARD.value)
+    elif board == "synthetic":
+        board_id = int(BoardIds.SYNTHETIC_BOARD.value)
+    elif board == "playback":
+        board_id = int(BoardIds.PLAYBACK_FILE_BOARD.value)
+    else:
+        raise RuntimeError(f"Unsupported live board '{board}'.")
+
+    probe_board = BoardShim(board_id, params)
+    live_started = False
+    try:
+        probe_board.prepare_session()
+        probe_board.start_stream()
+        live_started = True
+        resolved_board_id = int(probe_board.get_board_id())
+        eeg_rows = BoardShim.get_eeg_channels(resolved_board_id)
+        return {
+            "board": board,
+            "board_id": resolved_board_id,
+            "sampling_rate_hz": int(BoardShim.get_sampling_rate(resolved_board_id)),
+            "eeg_channel_count": len(eeg_rows),
+            "serial_port": serial_port,
+            "playback_file": str(playback_file.resolve()) if playback_file else "",
+        }
+    finally:
+        if live_started:
+            try:
+                probe_board.stop_stream()
+            except Exception:
+                pass
+        try:
+            probe_board.release_session()
+        except Exception:
+            pass
+
+
 def _config_metadata(config: BCITrackingGameConfig) -> dict[str, Any]:
     def convert(value: Any) -> Any:
         if isinstance(value, Path):

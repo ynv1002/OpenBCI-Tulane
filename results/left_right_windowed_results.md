@@ -1,5 +1,23 @@
 # Clean Cross-Session LEFT vs RIGHT EEG Retrain
 
+## Data Used
+
+- Sessions: `LR-2-27-26-(01).csv`, `LR-3-15-26-(04).csv`
+- Task: windowed `LEFT` vs `RIGHT` EEG classification after calibration
+
+## Model Used
+
+- Compared `RandomForest`, `LogisticRegression`, and `LDA`
+- Saved runtime artifact: `models/clean_left_right_window_model.pkl`
+
+## Split Rule
+
+- Train on one clean session, test on the other
+- Repeat both directions and pool the held-out results
+- First `45` seconds of each session used for baseline/rest calibration
+
+## Main Result
+
 - Sessions: `LR-2-27-26-(01).csv, LR-3-15-26-(04).csv`
 - Shared selected channels: `Channel_1, Channel_3, Channel_4, Channel_6, Channel_7, Channel_8`
 - Excluded channels: `Channel_2: unsafe in training sessions: LR-2-27-26-(01).csv (rail fraction 0.1460), LR-3-15-26-(04).csv (rail fraction 0.9991) | Channel_5: unsafe in training sessions: LR-2-27-26-(01).csv (dominant exact value fraction 1.0000; rail fraction 1.0000), LR-3-15-26-(04).csv (rail fraction 0.9959)`
@@ -33,3 +51,8 @@
 - Winning pooled accuracy: `0.484`
 - Hybrid reuse readout: not strong enough to reuse directly; keep as a clean benchmark and retrain again after hybrid integration changes
 - Saved artifact: `models/clean_left_right_window_model.pkl`
+
+## Why It Was Kept Anyway
+
+- This is the cleanest direct left/right runtime artifact currently available
+- It is weak, but it documents the exact baseline-calibrated hand model currently used by the hybrid stack

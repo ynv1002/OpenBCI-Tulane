@@ -1,5 +1,22 @@
 # Shared LRJ Offline Benchmark
 
+## Data Used
+
+- Sessions: `Ben-LRJ(1-6)-4:9.csv`, `Yaniv-LRJ(6)-4:7.csv`
+- Task family: structured hybrid protocol with `LEFT`, `RIGHT`, and `JAW`
+
+## Model Used
+
+- Interval/window benchmark models: `RandomForest`, `LogisticRegression`, `LDA`
+- Shared selected channels: `Channel_1, Channel_3, Channel_7, Channel_8`
+
+## Split Rule
+
+- Leave-one-session-out across the two LRJ sessions
+- Metrics reported at both the window level and the interval level
+
+## Main Result
+
 - Sessions: `Ben-LRJ(1-6)-4:9.csv, Yaniv-LRJ(6)-4:7.csv`
 - Shared selected channels: `Channel_1, Channel_3, Channel_7, Channel_8`
 - Interval count: `36`
@@ -38,3 +55,8 @@
 - Best movement model: `LogisticRegression` with pooled interval macro-F1 `0.642`
 - Best count model: `LogisticRegression` with pooled interval macro-F1 `0.212`
 - Best joint model: `LogisticRegression` with pooled interval exact-match `0.167`
+
+## Why It Was Not The Main Runtime Scorecard
+
+- `LRJ` is valuable hybrid evidence, but it is not identical to the plain `LR` left/right benchmark
+- Exact joint decode stayed weak enough that it should be treated as supporting evidence rather than the main success claim

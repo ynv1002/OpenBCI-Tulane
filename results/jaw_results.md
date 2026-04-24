@@ -1,5 +1,23 @@
 # Jaw Click Replay Summary
 
+## Data Used
+
+- Sessions: jaw-focused replay sessions from the hybrid project benchmark path
+- Task: detect discrete jaw-triggered click events
+
+## Model Used
+
+- Saved artifact: `models/realtime_clench_model.pkl`
+- Main strategy: `binary_clench_threshold`
+- Runtime interpretation: thresholded jaw click trigger with cooldown and rearm logic
+
+## Split Rule
+
+- Replay evaluation with train/test separation from the jaw benchmark pipeline
+- Matching against approximate onset neighborhoods derived from event labels
+
+## Main Result
+
 The replay evaluation uses approximate onset neighborhoods from derived event labels.
 Marker edges are experimenter timing, not exact physiological onset truth.
 
@@ -13,6 +31,11 @@ Marker edges are experimenter timing, not exact physiological onset truth.
 - Test total approximate onset references: `124`
 - Test extra clicks: `24`
 - Test median lag (ms): `132.4`
+
+## Why It Was Chosen
+
+- Jaw was the strongest and most reusable control branch in the project
+- This is the branch that best supports the live hybrid runtime
 
 ## Strategy Comparison
 

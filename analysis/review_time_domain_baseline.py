@@ -39,7 +39,6 @@ from analysis.utils import (
 
 OUTPUT_ROOT = PROJECT_ROOT / "analysis" / "outputs"
 SUMMARY_PATH = OUTPUT_ROOT / "left_right_coverage_summary.json"
-INVENTORY_PATH = OUTPUT_ROOT / "left_right_relevant_files.csv"
 REPORT_PATH = OUTPUT_ROOT / "left_right_lr_results.md"
 
 VALIDATION_SUMMARY_PATH = PROJECT_ROOT / "analysis" / "lr_event_validation" / "outputs" / "overall_summary.csv"
@@ -174,9 +173,7 @@ def _lr_inventory_dataframe(validation_df: pd.DataFrame) -> pd.DataFrame:
                 }
             )
             
-    inventory_df = pd.DataFrame(rows)
-    inventory_df.to_csv(INVENTORY_PATH, index=False)
-    return inventory_df
+    return pd.DataFrame(rows)
 
 
 def _summary_row(label: str, summary: dict[str, Any]) -> dict[str, Any]:
@@ -320,7 +317,6 @@ def main() -> None:
         "expanded_lr_summary": expanded_summary,
         "combo_lr_lrj_summary": combo_summary,
         "lrj_related_summaries": lrj_rows,
-        "inventory_csv": str(INVENTORY_PATH),
     }
     write_json(SUMMARY_PATH, summary_payload)
 

@@ -7,7 +7,8 @@ Recommended reading order:
 1. `data_modeling_report_draft.md`
 2. `dataset_table.md`
 3. `modeling_table.md`
-4. `professor_evidence_map.md`
+4. `model_iteration_map.md`
+5. `professor_evidence_map.md`
 
 Purpose:
 
@@ -17,5 +18,7 @@ Purpose:
   - one-page dataset inventory
 - `modeling_table.md`
   - one-page modeling inventory
+- `model_iteration_map.md`
+  - shortest path to “where is the model, what script made it, and was it chosen?”
 - `professor_evidence_map.md`
   - claim-to-file map showing which code and results support each major statement

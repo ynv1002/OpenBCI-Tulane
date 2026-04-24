@@ -6,10 +6,10 @@ import sys
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from analysis.bci_game_runtime import BCITrackingGameConfig, LIVE, REPLAY
+    from analysis.bci_game_runtime import BCITrackingGameConfig, LIVE, REPLAY, probe_live_board_connection
     from analysis.bci_tracking_game import BCITrackingGameApp, run_headless_replay_smoke
 else:
-    from .bci_game_runtime import BCITrackingGameConfig, LIVE, REPLAY
+    from .bci_game_runtime import BCITrackingGameConfig, LIVE, REPLAY, probe_live_board_connection
     from .bci_tracking_game import BCITrackingGameApp, run_headless_replay_smoke
 
 
@@ -32,6 +32,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--autoplay-replay", action="store_true", help="If replay mode is selected, start playback immediately after loading.")
     parser.add_argument("--auto-close-sec", type=float, help="Close the window automatically after this many wall-clock seconds. Useful for smoke tests.")
     parser.add_argument("--headless-smoke", action="store_true", help="Run a replay-mode smoke test without opening Tk. This is intended for verification only.")
+    parser.add_argument("--probe-live", action="store_true", help="Probe the selected live board connection and exit without launching Tk.")
     return parser.parse_args()
 
 
@@ -55,6 +56,22 @@ def main() -> None:
         jaw_hold_release_sec=base_config.jaw_hold_release_sec,
         stale_stream_warning_sec=base_config.stale_stream_warning_sec,
     )
+    resolved_playback_file = args.playback_file.resolve() if args.playback_file else None
+    if args.probe_live:
+        probe_summary = probe_live_board_connection(
+            board=str(args.board),
+            serial_port=str(args.serial_port),
+            playback_file=resolved_playback_file,
+        )
+        print("Live board probe ok.")
+        print(f"Board: {probe_summary['board']} (resolved id {probe_summary['board_id']})")
+        print(f"Sampling rate: {probe_summary['sampling_rate_hz']} Hz")
+        print(f"EEG channels: {probe_summary['eeg_channel_count']}")
+        if probe_summary["serial_port"]:
+            print(f"Serial port: {probe_summary['serial_port']}")
+        if probe_summary["playback_file"]:
+            print(f"Playback file: {probe_summary['playback_file']}")
+        return
     if args.headless_smoke:
         if args.mode != REPLAY:
             raise SystemExit("--headless-smoke only supports replay mode.")
@@ -75,7 +92,7 @@ def main() -> None:
         replay_speed=float(args.replay_speed),
         board=str(args.board),
         serial_port=str(args.serial_port),
-        playback_file=args.playback_file.resolve() if args.playback_file else None,
+        playback_file=resolved_playback_file,
         max_live_sec=float(args.max_live_sec) if args.max_live_sec is not None else None,
         autostart=bool(args.autostart),
         autoplay_replay=bool(args.autoplay_replay),

@@ -15,9 +15,10 @@ The core story is:
 If you want the cleanest overview, open these in order:
 
 1. `report/`
-2. `results/`
-3. `gui_game_code/`
-4. `live_runs/examples/`
+2. `report/model_iteration_map.md`
+3. `results/`
+4. `gui_game_code/`
+5. `live_runs/examples/`
 
 If you want the backend code after that, use:
 

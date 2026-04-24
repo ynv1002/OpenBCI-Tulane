@@ -15,7 +15,6 @@ Current files:
 - `stepwise_benchmark/`
 - `jaw_results.md`
 - `left_right_lr_results.md`
-- `left_right_relevant_files.csv`
 - `left_right_lrj_results.md`
 - `left_right_windowed_results.md`
 - `spectral_results.md`
@@ -29,7 +28,7 @@ Interpretation:
 - `jaw_results.md`
   - strongest jaw replay result
 - `left_right_lr_results.md`
-  - current LR coverage and scope decision
+  - main event-level LR benchmark and scope decision
 - `left_right_lrj_results.md`
   - related LRJ benchmark summary with the extra jaw event included
 - `left_right_windowed_results.md`

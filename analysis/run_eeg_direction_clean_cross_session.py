@@ -16,13 +16,9 @@ from sklearn.preprocessing import StandardScaler
 
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-    from analysis.run_eeg_direction_base_up_calibrated import (
-        CALIBRATION_SEC,
-        compute_calibration_stats,
-        normalize_with_calibration,
-    )
     from analysis.utils import (
         LABEL_BASELINE,
+        LABEL_REST,
         WINDOW_METADATA_COLUMNS,
         audit_all_sessions,
         build_windows_for_audit,
@@ -32,13 +28,9 @@ if __package__ in (None, ""):
         write_markdown,
     )
 else:
-    from .run_eeg_direction_base_up_calibrated import (
-        CALIBRATION_SEC,
-        compute_calibration_stats,
-        normalize_with_calibration,
-    )
     from .utils import (
         LABEL_BASELINE,
+        LABEL_REST,
         WINDOW_METADATA_COLUMNS,
         audit_all_sessions,
         build_windows_for_audit,
@@ -53,6 +45,7 @@ CLEAN_SESSION_FILENAMES = [
     "LR-2-27-26-(01).csv",
     "LR-3-15-26-(04).csv",
 ]
+CALIBRATION_SEC = 45.0
 WINDOW_SEC = 1.0
 OVERLAP = 0.5
 FEATURE_MODE = "combined"
@@ -66,6 +59,39 @@ EXPECTED_SHARED_CHANNELS = [
     "Channel_7",
     "Channel_8",
 ]
+
+
+def calibration_subset(frame: pd.DataFrame, calibration_sec: float) -> pd.DataFrame:
+    return frame.loc[
+        frame["label"].isin([LABEL_BASELINE, LABEL_REST])
+        & (frame["start_time_sec"] >= 0.0)
+        & (frame["end_time_sec"] <= calibration_sec)
+    ].copy()
+
+
+def compute_calibration_stats(
+    frame: pd.DataFrame,
+    feature_columns: Sequence[str],
+    calibration_sec: float,
+) -> tuple[pd.Series, pd.Series, int]:
+    calibration_frame = calibration_subset(frame, calibration_sec)
+    if calibration_frame.empty:
+        raise ValueError("No baseline/rest windows were found in the requested calibration period.")
+    mean = calibration_frame.loc[:, list(feature_columns)].mean(axis=0)
+    std = calibration_frame.loc[:, list(feature_columns)].std(axis=0, ddof=0)
+    std = std.replace(0.0, 1.0).fillna(1.0)
+    return mean, std, int(len(calibration_frame))
+
+
+def normalize_with_calibration(
+    frame: pd.DataFrame,
+    feature_columns: Sequence[str],
+    mean: pd.Series,
+    std: pd.Series,
+) -> pd.DataFrame:
+    out = frame.copy()
+    out.loc[:, list(feature_columns)] = (out.loc[:, list(feature_columns)] - mean) / std
+    return out
 
 
 def parse_args() -> argparse.Namespace:

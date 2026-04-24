@@ -10,6 +10,10 @@ It is intentionally narrower than the older research worktree. The goal on this 
 
 If you are opening the repo fresh, start at the repo root first. This folder is not the main entry point for the professor-facing story.
 
+If the question is "where is the model and which script produced it?", use:
+
+- `../report/model_iteration_map.md`
+
 ## Main Runtime Files
 
 - `run_bci_tracking_game.py`

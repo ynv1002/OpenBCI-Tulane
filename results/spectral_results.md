@@ -1,5 +1,21 @@
 # Spectral Motor-Imagery Baseline Review
 
+## Data Used
+
+- Combined `LR + LRJ` event-level comparison set
+- Common channels: `Channel_1, Channel_3, Channel_7, Channel_8`
+
+## Model Used
+
+- Spectral bandpower baselines with `LogisticRegression`
+- Compared against the time-domain event baseline
+
+## Split Rule
+
+- Cross-session pooled evaluation on the shared event-level benchmark
+
+## Main Result
+
 ## Feature Dimension Guardrails
 - Common Channels Active: `Channel_1, Channel_3, Channel_7, Channel_8`
 - Spectral v1 feature count: `12` (Base Bandpowers)
@@ -16,3 +32,8 @@
 ### Interpretation
 If `spectral_v1` outperforms the time domain baseline, the core motor imagery signal geometry is highly linearly separable.
 If `spectral_v2` provides a major jump, relative left-right structure is the dominant directional component.
+
+## Why It Was Not Chosen
+
+- Spectral-only features stayed below the time-domain baseline
+- This path did not improve the practical left/right story
