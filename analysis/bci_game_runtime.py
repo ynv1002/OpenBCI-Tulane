@@ -834,10 +834,14 @@ class BCITrackingDecoder:
         jaw_settings = dict(adaptation_summary.get("jaw", {}).get("settings", {}))
 
         if hand_settings:
+            updates = {}
             if "direction_min_confidence" in hand_settings:
-                self.direction_model.decoder_cfg.direction_min_confidence = float(hand_settings["direction_min_confidence"])
+                updates["direction_min_confidence"] = float(hand_settings["direction_min_confidence"])
             if "direction_margin" in hand_settings:
-                self.direction_model.decoder_cfg.direction_margin = float(hand_settings["direction_margin"])
+                updates["direction_margin"] = float(hand_settings["direction_margin"])
+            if updates:
+                from dataclasses import replace
+                self.direction_model.decoder_cfg = replace(self.direction_model.decoder_cfg, **updates)
             self.hand_interpreter.apply_runtime_tuning(
                 action_latch_sec=hand_settings.get("hand_action_latch_sec"),
                 switch_cooldown_sec=hand_settings.get("hand_switch_cooldown_sec"),
