@@ -1,5 +1,22 @@
 from __future__ import annotations
 
+# Import tkinter first to prevent MacOS segfaults
+import tkinter as tk
+
+# Pre-import heavy ML/Bluetooth libraries on the main thread to prevent
+# segfaults when they are lazy-loaded or used from the background thread.
+try:
+    from brainflow.board_shim import BoardIds, BoardShim, BrainFlowInputParams
+except ImportError:
+    pass
+
+try:
+    import sklearn
+    from sklearn.linear_model import LogisticRegression
+    import scipy
+except ImportError:
+    pass
+
 import argparse
 from pathlib import Path
 import sys
@@ -58,11 +75,15 @@ def main() -> None:
     )
     resolved_playback_file = args.playback_file.resolve() if args.playback_file else None
     if args.probe_live:
-        probe_summary = probe_live_board_connection(
-            board=str(args.board),
-            serial_port=str(args.serial_port),
-            playback_file=resolved_playback_file,
-        )
+        try:
+            probe_summary = probe_live_board_connection(
+                board=str(args.board),
+                serial_port=str(args.serial_port),
+                playback_file=resolved_playback_file,
+            )
+        except Exception as exc:
+            print(f"Live board probe failed: {exc}", file=sys.stderr)
+            raise SystemExit(1) from None
         print("Live board probe ok.")
         print(f"Board: {probe_summary['board']} (resolved id {probe_summary['board_id']})")
         print(f"Sampling rate: {probe_summary['sampling_rate_hz']} Hz")

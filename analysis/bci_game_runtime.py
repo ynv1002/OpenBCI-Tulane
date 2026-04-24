@@ -158,6 +158,25 @@ def _selected_board_rows(selected_channels: Sequence[str], eeg_rows: Sequence[in
     return rows
 
 
+def _validate_live_board_request(board: str, serial_port: str, playback_file: Path | None) -> None:
+    if board == "cyton" and not serial_port.strip():
+        raise RuntimeError(
+            "Cyton diagnostics require a serial port. Select the OpenBCI serial port before running diagnostics."
+        )
+    if board == "playback" and playback_file is None:
+        raise RuntimeError("--playback-file is required for playback board mode.")
+
+
+def _board_error_message(board: str, exc: Exception) -> str:
+    board_label = {"cyton": "Cyton", "synthetic": "Synthetic board", "playback": "Playback board"}.get(board, board)
+    hint = ""
+    if board == "cyton":
+        hint = " Check that the correct OpenBCI serial port is selected and that no other process is using it."
+    elif board == "playback":
+        hint = " Check that the playback file exists and matches the expected Cyton master board format."
+    return f"{board_label} probe failed: {exc}.{hint}"
+
+
 def probe_live_board_connection(
     *,
     board: str,
@@ -169,12 +188,12 @@ def probe_live_board_connection(
     except ModuleNotFoundError as exc:
         raise RuntimeError("brainflow is required for live mode.") from exc
 
+    _validate_live_board_request(board, serial_port, playback_file)
+
     params = BrainFlowInputParams()
     if serial_port:
         params.serial_port = serial_port
     if board == "playback":
-        if playback_file is None:
-            raise RuntimeError("--playback-file is required for playback board mode.")
         params.file = str(playback_file.resolve())
         params.master_board = int(BoardIds.CYTON_BOARD.value)
 
@@ -203,6 +222,8 @@ def probe_live_board_connection(
             "serial_port": serial_port,
             "playback_file": str(playback_file.resolve()) if playback_file else "",
         }
+    except Exception as exc:
+        raise RuntimeError(_board_error_message(board, exc)) from exc
     finally:
         if live_started:
             try:
@@ -1302,12 +1323,12 @@ class LiveGameController:
         self.logger.set_classifier_provenance(self.decoder.classifier_provenance())
 
     def _prepare_board(self) -> None:
+        _validate_live_board_request(self.board_name, self.serial_port, self.playback_file)
+
         params = self.BrainFlowInputParams()
         if self.serial_port:
             params.serial_port = self.serial_port
         if self.board_name == "playback":
-            if self.playback_file is None:
-                raise RuntimeError("--playback-file is required for playback board mode.")
             params.file = str(self.playback_file.resolve())
             params.master_board = int(self.BoardIds.CYTON_BOARD.value)
 
@@ -1321,13 +1342,20 @@ class LiveGameController:
             raise RuntimeError(f"Unsupported live board '{self.board_name}'.")
 
         self.board = self.BoardShim(board_id, params)
-        self.board.prepare_session()
-        self.board.start_stream()
-        resolved_board_id = int(self.board.get_board_id())
-        self.fs_hz = float(self.BoardShim.get_sampling_rate(resolved_board_id))
-        eeg_rows = self.BoardShim.get_eeg_channels(resolved_board_id)
-        self.board_rows = _selected_board_rows(self.union_channels, eeg_rows)
-        self.live_started = True
+        try:
+            self.board.prepare_session()
+            self.board.start_stream()
+            resolved_board_id = int(self.board.get_board_id())
+            self.fs_hz = float(self.BoardShim.get_sampling_rate(resolved_board_id))
+            eeg_rows = self.BoardShim.get_eeg_channels(resolved_board_id)
+            self.board_rows = _selected_board_rows(self.union_channels, eeg_rows)
+            self.live_started = True
+        except Exception as exc:
+            try:
+                self.board.release_session()
+            except Exception:
+                pass
+            raise RuntimeError(_board_error_message(self.board_name, exc)) from exc
 
     def _append_new_samples(self) -> int:
         data = self.board.get_board_data()

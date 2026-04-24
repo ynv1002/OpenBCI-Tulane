@@ -58,11 +58,15 @@ def main() -> None:
     )
     resolved_playback_file = args.playback_file.resolve() if args.playback_file else None
     if args.probe_live:
-        probe_summary = probe_live_board_connection(
-            board=str(args.board),
-            serial_port=str(args.serial_port),
-            playback_file=resolved_playback_file,
-        )
+        try:
+            probe_summary = probe_live_board_connection(
+                board=str(args.board),
+                serial_port=str(args.serial_port),
+                playback_file=resolved_playback_file,
+            )
+        except Exception as exc:
+            print(f"Live board probe failed: {exc}", file=sys.stderr)
+            raise SystemExit(1) from None
         print("Live board probe ok.")
         print(f"Board: {probe_summary['board']} (resolved id {probe_summary['board_id']})")
         print(f"Sampling rate: {probe_summary['sampling_rate_hz']} Hz")
