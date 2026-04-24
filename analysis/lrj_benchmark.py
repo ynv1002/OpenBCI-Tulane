@@ -585,8 +585,8 @@ def main() -> None:
     results_path = output_dir / "lrj_benchmark_results.csv"
     window_predictions_path = output_dir / "lrj_window_predictions.csv"
     interval_predictions_path = output_dir / "lrj_interval_predictions.csv"
-    summary_md_path = output_dir / "lrj_benchmark_summary.md"
-    summary_json_path = output_dir / "lrj_benchmark_summary.json"
+    summary_md_path = output_dir / "left_right_lrj_results.md"
+    summary_json_path = output_dir / "left_right_lrj_results.json"
 
     interval_dataset_df.to_csv(interval_dataset_path, index=False)
     window_dataset_df.to_csv(window_dataset_path, index=False)

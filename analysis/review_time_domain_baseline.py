@@ -40,7 +40,7 @@ from analysis.utils import (
 OUTPUT_ROOT = PROJECT_ROOT / "analysis" / "outputs"
 SUMMARY_PATH = OUTPUT_ROOT / "left_right_coverage_summary.json"
 INVENTORY_PATH = OUTPUT_ROOT / "left_right_relevant_files.csv"
-REPORT_PATH = OUTPUT_ROOT / "left_right_coverage_review.md"
+REPORT_PATH = OUTPUT_ROOT / "left_right_lr_results.md"
 
 VALIDATION_SUMMARY_PATH = PROJECT_ROOT / "analysis" / "lr_event_validation" / "outputs" / "overall_summary.csv"
 LRJ_BENCHMARK_RESULTS_PATH = PROJECT_ROOT / "analysis" / "lrj_benchmark" / "outputs" / "benchmark_results.csv"

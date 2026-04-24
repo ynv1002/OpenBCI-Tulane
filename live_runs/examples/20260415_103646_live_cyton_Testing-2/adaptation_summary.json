@@ -1,0 +1,41 @@
+{
+  "hand": {
+    "decision_style": "event_gated_direction_vote",
+    "reason": "fallback_to_base",
+    "settings": {
+      "direction_margin": 0.1,
+      "direction_min_confidence": 0.6,
+      "hand_action_latch_sec": 0.45,
+      "hand_switch_cooldown_sec": 0.2
+    },
+    "stats": {
+      "baseline_lr_q98": 0.0,
+      "left_segment_count": 6,
+      "margin_q35": -0.9999962167510597,
+      "right_segment_count": 6,
+      "target_q35": 1.8916244701916635e-06,
+      "target_q65": 0.99999807623399
+    },
+    "used_adapted_settings": false
+  },
+  "jaw": {
+    "decision_style": "jaw_trigger_plus_hold_interpreter",
+    "reason": "fallback_to_base",
+    "settings": {
+      "click_threshold": 0.65,
+      "hold_onset_sec": 0.45,
+      "hold_probability_threshold": 0.7,
+      "hold_release_sec": 0.18,
+      "rearm_threshold": 0.55
+    },
+    "stats": {
+      "baseline_jaw_active_q98": 0.4485000964515082,
+      "baseline_jaw_q98": 0.5092853974337124,
+      "hold_active_q50": 0.4107796399597885,
+      "hold_active_q75": 0.7842387885193003,
+      "tap_jaw_q40": 0.33785481028934805,
+      "tap_jaw_q65": 0.5002975409765353
+    },
+    "used_adapted_settings": false
+  }
+}

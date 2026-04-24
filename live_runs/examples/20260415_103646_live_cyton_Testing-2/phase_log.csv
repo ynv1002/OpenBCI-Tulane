@@ -1,0 +1,4 @@
+mode,phase_name,run_time_sec,sample_count,wall_time_utc,session_label
+LIVE,Baseline,0.0,0,2026-04-15T10:36:46,Testing-2
+LIVE,Guided Collection,45.016,11255,2026-04-15T10:37:31,Testing-2
+LIVE,Adapting Session,188.28,47071,2026-04-15T10:39:54,Testing-2

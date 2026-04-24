@@ -38,7 +38,7 @@ from analysis.utils import (
 
 OUTPUT_ROOT = PROJECT_ROOT / "analysis" / "outputs"
 TIME_DOMAIN_SUMMARY_PATH = OUTPUT_ROOT / "left_right_coverage_summary.json"
-REPORT_PATH = OUTPUT_ROOT / "spectral_coverage_review.md"
+REPORT_PATH = OUTPUT_ROOT / "spectral_results.md"
 
 def extract_bandpower(psd: np.ndarray, freqs: np.ndarray, fmin: float, fmax: float) -> float:
     idx = np.logical_and(freqs >= fmin, freqs <= fmax)

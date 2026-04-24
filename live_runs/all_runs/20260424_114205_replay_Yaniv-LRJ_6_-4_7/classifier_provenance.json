@@ -1,0 +1,64 @@
+{
+  "hand_branch": {
+    "artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/models/clean_left_right_window_model.pkl",
+    "calibration_ready": false,
+    "calibration_rows": 0,
+    "decision_style": "event_gated_direction_vote",
+    "feature_mode": "combined",
+    "model_family": "LogisticRegression",
+    "runtime_thresholds": {
+      "direction_margin": 0.1,
+      "direction_min_confidence": 0.6,
+      "hand_action_latch_sec": 0.45,
+      "hand_switch_cooldown_sec": 0.2
+    },
+    "selected_channels": [
+      "Channel_1",
+      "Channel_3",
+      "Channel_4",
+      "Channel_6",
+      "Channel_7",
+      "Channel_8"
+    ],
+    "window_sec": 1.0
+  },
+  "jaw_branch": {
+    "artifact_path": "/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/models/realtime_clench_model.pkl",
+    "decision_style": "jaw_trigger_plus_hold_interpreter",
+    "hold_runtime": {
+      "hold_onset_sec": 0.45,
+      "hold_probability_threshold": 0.7,
+      "hold_release_sec": 0.18
+    },
+    "model_family": {
+      "binary_model": "Pipeline",
+      "jaw_4state_model": "Pipeline"
+    },
+    "selected_channels": [
+      "Channel_1",
+      "Channel_3",
+      "Channel_4",
+      "Channel_6",
+      "Channel_7",
+      "Channel_8"
+    ],
+    "smoothing_sec": 0.25,
+    "trigger_config": {
+      "active_probability_threshold": 0.55,
+      "clench_probability_threshold": 0.65,
+      "cooldown_ms": 250,
+      "hold_suppression": true,
+      "minimum_clench_rise": 0.0,
+      "minimum_envelope_uv": 0.0,
+      "minimum_separation_ms": 250,
+      "onset_probability_threshold": 0.45,
+      "rearm_clench_probability_threshold": 0.55,
+      "require_transition_from_inactive": false,
+      "smoothing_windows": 1,
+      "strategy_name": "binary_clench_threshold"
+    },
+    "window_sec": 0.2
+  },
+  "mode": "REPLAY",
+  "source_name": "Yaniv-LRJ(6)-4:7.csv"
+}

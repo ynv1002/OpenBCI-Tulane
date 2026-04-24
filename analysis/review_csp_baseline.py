@@ -38,7 +38,7 @@ from analysis.utils import (
 
 OUTPUT_ROOT = PROJECT_ROOT / "analysis" / "outputs"
 TIME_DOMAIN_SUMMARY_PATH = OUTPUT_ROOT / "left_right_coverage_summary.json"
-REPORT_PATH = OUTPUT_ROOT / "csp_coverage_review.md"
+REPORT_PATH = OUTPUT_ROOT / "csp_results.md"
 
 def _model_bank(n_components: int = 4) -> dict[str, Any]:
     return {

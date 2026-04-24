@@ -340,8 +340,8 @@ def main() -> None:
         pooled_training_frame["label"].to_numpy(),
     )
 
-    results_csv = output_dir / "eeg_direction_clean_cross_session.csv"
-    summary_md = output_dir / "eeg_direction_clean_cross_session.md"
+    results_csv = output_dir / "left_right_windowed_results.csv"
+    summary_md = output_dir / "left_right_windowed_results.md"
     artifact_path = output_dir / "clean_left_right_window_model.pkl"
 
     results_df.to_csv(results_csv, index=False)

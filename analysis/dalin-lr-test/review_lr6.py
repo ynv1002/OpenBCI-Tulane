@@ -16,13 +16,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from analysis.run_active_vs_rest_cross_session_calibrated import (
-    DEFAULT_CALIBRATION_SEC,
-    compute_calibration_stats,
-    normalize_with_calibration,
-)
-from analysis.run_active_vs_rest_experiment import remap_active_vs_rest
-from analysis.run_two_stage_lr_pipeline import ACTIVE_THRESHOLD, fit_active_gate, fit_left_right_model
 from analysis.utils import (
     WINDOW_METADATA_COLUMNS,
     audit_all_sessions,
@@ -280,6 +273,9 @@ def _prepare_target_model_audit(csv_path: Path, fs_hz: float) -> dict[str, Any]:
 def _normalize_training_windows(
     train_audits: list[dict[str, Any]],
     model_channels: list[str],
+    calibration_sec: float,
+    compute_calibration_stats_fn: Any,
+    normalize_with_calibration_fn: Any,
 ) -> tuple[pd.DataFrame, list[str]]:
     train_frames: list[pd.DataFrame] = []
     feature_columns: list[str] | None = None
@@ -296,8 +292,8 @@ def _normalize_training_windows(
         )
         if feature_columns is None:
             feature_columns = [column for column in frame.columns if column not in WINDOW_METADATA_COLUMNS]
-        mean, std, _ = compute_calibration_stats(frame, feature_columns, DEFAULT_CALIBRATION_SEC)
-        train_frames.append(normalize_with_calibration(frame, feature_columns, mean, std))
+        mean, std, _ = compute_calibration_stats_fn(frame, feature_columns, calibration_sec)
+        train_frames.append(normalize_with_calibration_fn(frame, feature_columns, mean, std))
 
     if not train_frames or feature_columns is None:
         _fail("Could not build training windows for the auxiliary LR comparison.")
@@ -311,6 +307,23 @@ def _run_model_comparison(
     target_trial_channels: list[str],
     fs_hz: float,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
+    try:
+        from analysis.run_active_vs_rest_cross_session_calibrated import (
+            DEFAULT_CALIBRATION_SEC,
+            compute_calibration_stats,
+            normalize_with_calibration,
+        )
+        from analysis.run_active_vs_rest_experiment import remap_active_vs_rest
+        from analysis.run_two_stage_lr_pipeline import ACTIVE_THRESHOLD, fit_active_gate, fit_left_right_model
+    except ModuleNotFoundError:
+        return (
+            pd.DataFrame(),
+            {
+                "model_channels": [],
+                "note": "Auxiliary LR comparison unavailable on the clean branch because legacy gate-training modules were removed.",
+            },
+        )
+
     audits = audit_all_sessions()
     train_audits = [audit for audit in audits if audit["family"] == "left_right"][:-1]
     training_selected_channels, training_excluded_channels = select_model_channels(train_audits)
@@ -326,7 +339,13 @@ def _run_model_comparison(
             },
         )
 
-    train_norm, feature_columns = _normalize_training_windows(train_audits, model_channels)
+    train_norm, feature_columns = _normalize_training_windows(
+        train_audits,
+        model_channels,
+        DEFAULT_CALIBRATION_SEC,
+        compute_calibration_stats,
+        normalize_with_calibration,
+    )
 
     target_audit = _prepare_target_model_audit(csv_path, fs_hz)
     target_frame = build_windows_for_audit(

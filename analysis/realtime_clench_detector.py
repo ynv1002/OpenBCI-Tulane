@@ -62,7 +62,7 @@ else:
     )
 
 
-DEFAULT_ARTIFACT_PATH = PROJECT_ROOT / "final_package" / "models" / "realtime_clench_model.pkl"
+DEFAULT_ARTIFACT_PATH = PROJECT_ROOT / "models" / "realtime_clench_model.pkl"
 DEFAULT_POLL_INTERVAL_SEC = 0.05
 DEFAULT_COOLDOWN_SEC = 0.30
 DEFAULT_WARMUP_SEC = 1.0

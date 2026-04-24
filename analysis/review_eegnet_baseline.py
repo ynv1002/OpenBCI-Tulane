@@ -42,7 +42,7 @@ from analysis.utils import (
 
 OUTPUT_ROOT = PROJECT_ROOT / "analysis" / "outputs"
 TIME_DOMAIN_SUMMARY_PATH = OUTPUT_ROOT / "left_right_coverage_summary.json"
-REPORT_PATH = OUTPUT_ROOT / "eegnet_coverage_review.md"
+REPORT_PATH = OUTPUT_ROOT / "eegnet_results.md"
 
 class NumpyFloat32Caster(BaseEstimator, TransformerMixin):
     def fit(self, X: np.ndarray, y: Any = None) -> "NumpyFloat32Caster":

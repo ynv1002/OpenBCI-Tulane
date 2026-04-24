@@ -1,65 +1,75 @@
-# BCI Project
+# Hybrid BCI Project
 
-This branch is the cleaned professor-facing version of the hybrid BCI project.
+This branch is the cleaned professor-facing version of the project.
 
-The project story is:
+The core story is:
 
 - we built a hybrid BCI system with `LEFT`, `RIGHT`, `JAW`, and `REST`
-- the live flow runs a guided session with baseline, scripted collection, adaptation, and gameplay
-- the jaw branch is the stronger branch
-- the hand `LEFT/RIGHT` branch is weaker and still session-sensitive
-- the current runtime uses saved artifacts plus session calibration/adaptation
-- the current runtime does **not** retrain model weights during the GUI session
+- the live flow runs a guided baseline and calibration phase before gameplay
+- jaw was the strongest and most reusable control branch
+- left/right remained weaker, benefited from calibration, and stayed session-sensitive
+- we tested several alternative modeling directions and kept the results even when they did not win
 
-## Where To Start
+## Start Here
 
-If you are orienting to the active project, read in this order:
+If you want the cleanest overview, open these in order:
 
-1. this root README
-2. `analysis/README.md`
-3. `final_package/README.md`
+1. `report/`
+2. `results/`
+3. `gui_game_code/`
+4. `live_runs/examples/`
 
-## Clean Branch Layout
+If you want the backend code after that, use:
 
-- `final_package/`
-  - professor-facing package with curated report, results, code, models, and live examples
+5. `analysis/`
+6. `models/`
+
+## Repo Layout
+
+- `report/`
+  - write-up, dataset table, modeling table, and evidence map
+- `results/`
+  - benchmark summaries and failed-method comparisons
+- `gui_game_code/`
+  - professor-facing copy of the hybrid GUI/game stack
+- `live_runs/`
+  - curated examples plus the full run log history
+- `models/`
+  - saved jaw and left/right runtime artifacts
 - `analysis/`
-  - active analysis, runtime, and benchmark code
+  - active backend code for the final runtime and cited analyses
 - `bci_pipeline/`
-  - small runtime helper module reused by the analysis-side runtime
+  - lightweight runtime decoding helper reused by the game code
 
-## Main Runtime Deliverable
+## Main Runtime
 
-The current GUI/game deliverable is the tracking-game stack:
+The main GUI/game entry point is:
 
-- `analysis/run_bci_tracking_game.py`
-- `analysis/bci_tracking_game.py`
-- `analysis/bci_game_runtime.py`
-- `analysis/bci_session_flow.py`
+```bash
+python3 analysis/run_bci_tracking_game.py --mode LIVE --board cyton --serial-port "<your-port>"
+```
 
-This is the app that:
+Replay mode:
 
-1. prompts for a participant/session
-2. runs a `45 second` baseline
-3. runs guided `LEFT`, `RIGHT`, `JAW tap`, and `HOLD` collection
-4. applies session-local adaptation
-5. transitions into the game
+```bash
+python3 analysis/run_bci_tracking_game.py --mode REPLAY
+```
 
-New run logs now land under:
+New run bundles now land under:
 
-- `final_package/live_run_examples/`
+- `live_runs/all_runs/`
 
 ## Runtime Model Policy
 
-This is important for interpreting the results correctly.
+The GUI session does not retrain model weights live.
 
-The current GUI/game runtime does **not** do full retraining during the live session.
-Instead, it does:
+The current runtime does:
 
 - load the saved jaw artifact
-- load the saved hand artifact
-- collect baseline/calibration features
-- tune thresholds and runtime decision settings from the guided session
+- load the saved left/right artifact
+- collect baseline and guided calibration data
+- tune runtime thresholds and decision settings for that session
+- start gameplay
 
 So the honest description is:
 
@@ -69,159 +79,37 @@ So the honest description is:
 
 not:
 
-- one universal model trained on everything
-- or live retraining during the GUI session
+- one universal model trained on all data
+- or online weight retraining during the session
 
-## Active Analysis Components
+## Current Result Summary
 
-### 1. GUI/Game Runtime
+- `jaw`
+  - strongest branch and best practical control signal
+- `left/right LR`
+  - weak but non-random offline signal
+- `left/right LRJ`
+  - related hybrid-protocol evidence with the extra jaw event included
+- `windowed left/right`
+  - weaker benchmark, kept for honesty
+- `spectral`, `CSP`, `EEGNet`
+  - explored and documented, but not selected
 
-- `analysis/run_bci_tracking_game.py`
-- `analysis/bci_tracking_game.py`
-- `analysis/bci_game_runtime.py`
-- `analysis/bci_session_flow.py`
+## Dataset Framing
 
-This is the main professor-facing code path.
+The repo should be read as several related protocol families, not one pooled dataset.
 
-### 2. Hybrid Tester Support Layer
+- `LR`
+  - block-based `LEFT` / `RIGHT` EEG sessions
+- `HR / jaw`
+  - jaw-focused sessions used for the jaw branch
+- `LRJ`
+  - structured hybrid sessions with `LEFT`, `RIGHT`, and `JAW`
 
-- `analysis/hybrid_bci_tester.py`
-
-This is an older support module that still provides runtime pieces reused by the game code.
-It is not the main deliverable GUI.
-
-### 3. Jaw Branch
-
-- `analysis/realtime_clench_detector.py`
-
-This is not a GUI.
-It is the jaw modeling and runtime module used for:
-
-- offline jaw training
-- replay/live jaw testing
-- the jaw branch inside the hybrid runtime
-
-### 4. LR Event Validation
-
-- `analysis/lr_event_validation/`
-
-Offline validation path.
-It checks whether detected EEG events land inside trusted `LEFT` / `RIGHT` marker blocks.
-
-### 5. Event-Level LEFT/RIGHT Classification
-
-- `analysis/lr_event_classifier/`
-
-Offline modeling path.
-It classifies detected events as `LEFT` or `RIGHT` after event extraction.
-
-### 6. Window-Based LEFT/RIGHT Benchmark
-
-- `analysis/run_eeg_direction_clean_cross_session.py`
-
-Offline benchmark path.
-It uses windowed EEG features with calibration and cross-session testing.
-
-### 7. LRJ Benchmark
-
-- `analysis/lrj_dataset.py`
-- `analysis/lrj_benchmark.py`
-- `analysis/run_lrj_offline_benchmark.py`
-
-Offline benchmark path for the structured hybrid protocol family.
-
-### 8. Stepwise Benchmark
-
-- `analysis/stepwise_protocol_registry.py`
-- `analysis/stepwise_benchmark.py`
-- `analysis/run_stepwise_benchmark.py`
-
-This is the broad offline benchmark spine used for the final results story.
-
-## Dataset Families
-
-The repo should be understood as several related protocol families, not one pooled dataset.
-
-### LR
-
-Yaniv `EEG_LR` sessions:
-
-- `LR-2-27-26-(01).csv`
-- `LR-3-15-26-(04).csv`
-- `LR-3-8-26-(02).csv`
-- `LR-3-8-26-(03).csv`
-
-These are the main EEG `LEFT/RIGHT` block-based sessions.
-
-### HR / EMG_JvsN
-
-Yaniv jaw sessions used for jaw event modeling and replay/live jaw work.
-
-### LRJ
-
-Structured hybrid `LEFT` / `RIGHT` / `JAW` event-count protocol family:
-
-- `Ben-LRJ(1-6)-4:9.csv`
-- `Yaniv-LRJ(6)-4:7.csv`
-
-These should **not** be described as random one-offs.
-They are clean, structured hybrid protocol data with event/count labels for all three movement classes.
-They are the closest current dataset family to the guided hybrid collection logic used by the GUI.
-
-The right way to describe them is:
-
-- a structured LRJ protocol family
-- current shared offline benchmark data
-- a strong candidate family for future retraining work
-
-### Diagnostic Dalin Files
-
-- `Dalin-LR(6)-4:7.csv`
-
-These are not part of the professor-facing result story.
-The only retained Dalin-side code on this branch is the frozen `LR(6)` counter helper that the runtime still reuses internally.
-- `Dalin-LRJ(1,2)-4:7.csv`
-
-These stay diagnostic-only and should not be promoted into the main benchmark story.
-
-## Current Model Status
-
-- Jaw is the strongest branch.
-  - current best replay weighted event-F1 is about `0.767`
-- Event-level `LEFT/RIGHT` remains weak but non-random.
-  - expanded LR pooled accuracy / macro-F1 is about `0.613 / 0.613`
-- Clean window-based `LEFT/RIGHT` remains weak.
-  - pooled macro-F1 is about `0.480`
-- LRJ hand exact-count decode is still weak.
-- LRJ jaw exact-count decode is better than hand, but still not deployment-grade.
-
-## Recommended Professor-Facing Links
-
-The curated package lives under:
-
-- `final_package/report/`
-- `final_package/results/`
-- `final_package/gui_game_code/`
-- `final_package/live_run_examples/`
-- `final_package/analysis_code/`
-- `final_package/models/`
+`LRJ` is not a random one-off family. It is the closest current dataset family to the guided hybrid collection flow used by the GUI.
 
 ## Install
 
 ```bash
 pip install -r requirements.txt
-```
-
-## Run The Main GUI/Game
-
-Replay:
-
-```bash
-python3 analysis/run_bci_tracking_game.py --mode REPLAY
-```
-
-Live:
-
-```bash
-python3 analysis/run_bci_tracking_game.py --mode LIVE --board cyton --serial-port "<your-port>"
 ```
