@@ -1,0 +1,7 @@
+filename,protocol_family,trust_tier,current_left_right_use,include_in_current_lr_event_model,inside_block_fraction,kept_events_inside_blocks,kept_events_outside_blocks
+Ben-LRJ(1-6)-4:9.csv,LRJ,main,Separate LRJ benchmark only,no,,,
+Yaniv-LRJ(6)-4:7.csv,LRJ,main,Separate LRJ benchmark only,no,,,
+LR-2-27-26-(01).csv,LR,main,Primary LR event-model scorecard and expanded coverage,yes,0.9533333333333334,143,7
+LR-3-15-26-(04).csv,LR,main,Primary LR event-model scorecard and expanded coverage,yes,0.9666666666666668,232,8
+LR-3-8-26-(02).csv,LR,stress,Expanded LR event coverage only,yes,0.8,236,59
+LR-3-8-26-(03).csv,LR,stress,Expanded LR event coverage only,yes,0.8290598290598291,97,20

@@ -1,0 +1,2 @@
+run_time_sec,mode,decoded_state,score,hits,misses,pending_notes,jaw_hold_active,jaw_enabled,hand_enabled,game_completed
+0.09227299690246582,REPLAY,NEUTRAL,0,0,0,36,False,True,True,False

@@ -1,0 +1,24 @@
+# Modeling Table
+
+This table is scoped to the active report path only. It excludes older legacy experiments and diagnostic-only scripts so the summary stays readable.
+
+| branch | model | input unit | feature set | split rule | primary metric | current readout |
+| --- | --- | --- | --- | --- | --- | --- |
+| Jaw click detection | Logistic Regression (`jaw_4state`) | `0.20 s` sliding event windows from jaw-labeled sessions | Per-channel time stats (`mean`, `std`, `rms`, `ptp`, `var`, `energy`, `abs_mean`, `slope`) plus aggregate RMS and smoothed-envelope summaries | First 2 jaw sessions train, last jaw session test, based on session order | Replay weighted event-F1 after trigger layer | Supporting probability model inside replay detector |
+| Jaw click detection | Logistic Regression (`clench_vs_nonclench`) | `0.20 s` sliding event windows from jaw-labeled sessions | Same event-window time features and envelope summaries as the 4-state jaw model | First 2 jaw sessions train, last jaw session test, based on session order | Replay weighted event-F1 after trigger layer | Main probability model used by current click detector |
+| Jaw click detection | Trigger rule `binary_clench_threshold` | Per-window probability stream from the jaw models | Threshold, rearm, cooldown, and hold-suppression rule over binary clench probabilities plus onset/activity probabilities | Evaluated on the jaw replay train/test split above | Weighted event-F1 | Test weighted event-F1 `0.767` |
+| Event-level `LEFT/RIGHT` | LDA (`baseline_time_0p50`) | `0.50 s` event-centered windows around kept in-block peaks | Conservative time-domain event features: RMS, MAV, variance, peak absolute amplitude, waveform length, aggregate RMS summaries, and simple channel-vs-mean asymmetry | Two-fold leave-one-session-out across `LR-2-27-26-(01)` and `LR-3-15-26-(04)` | Pooled macro-F1 | `0.496` |
+| Event-level `LEFT/RIGHT` | Logistic Regression (`baseline_time_0p50`) | `0.50 s` event-centered windows around kept in-block peaks | Same conservative time-domain event feature set as above | Two-fold leave-one-session-out across the 2 high-trust sessions | Pooled macro-F1 | `0.524` |
+| Event-level `LEFT/RIGHT` | LDA (`baseline_plus_spectral_0p50`) | `0.50 s` event-centered windows | Baseline event features plus `mu_power`, `beta_power`, and pairwise `mu_asym` / `beta_asym` features | Two-fold leave-one-session-out across the 2 high-trust sessions | Pooled macro-F1 | `0.494` |
+| Event-level `LEFT/RIGHT` | Logistic Regression (`baseline_plus_spectral_0p50`) | `0.50 s` event-centered windows | Baseline event features plus `mu_power`, `beta_power`, and pairwise `mu_asym` / `beta_asym` features | Two-fold leave-one-session-out across the 2 high-trust sessions | Pooled macro-F1 | `0.521` |
+| Event-level `LEFT/RIGHT` | LDA (`baseline_plus_spectral_0p75`) | `0.75 s` event-centered windows | Baseline event features plus `mu_power`, `beta_power`, and pairwise `mu_asym` / `beta_asym` features | Two-fold leave-one-session-out across the 2 high-trust sessions | Pooled macro-F1 | `0.495` |
+| Event-level `LEFT/RIGHT` | Logistic Regression (`baseline_plus_spectral_0p75`) | `0.75 s` event-centered windows | Baseline event features plus `mu_power`, `beta_power`, and pairwise `mu_asym` / `beta_asym` features | Two-fold leave-one-session-out across the 2 high-trust sessions | Pooled macro-F1 | `0.501` |
+| Clean window-based `LEFT/RIGHT` | RandomForest | `1.0 s` sliding windows with `0.5` overlap, after per-session `45 s` calibration | Combined time and spectral features with asymmetry on shared safe/questionable channels | Train on one clean session, test on the other, then swap; pooled across both folds | Pooled macro-F1 | `0.423` |
+| Clean window-based `LEFT/RIGHT` | LDA | `1.0 s` sliding windows with `0.5` overlap, after per-session `45 s` calibration | Combined time and spectral features with asymmetry on shared safe/questionable channels | Train on one clean session, test on the other, then swap; pooled across both folds | Pooled macro-F1 | `0.410` |
+| Clean window-based `LEFT/RIGHT` | Logistic Regression | `1.0 s` sliding windows with `0.5` overlap, after per-session `45 s` calibration | Combined time and spectral features with asymmetry on shared safe/questionable channels | Train on one clean session, test on the other, then swap; pooled across both folds | Pooled macro-F1 | `0.480` |
+
+## Notes
+
+- For the jaw branch, the report-facing metric should be replay weighted event-F1, not raw window classification accuracy, because the detector is used through a trigger layer.
+- For the `LEFT/RIGHT` branches, macro-F1 is the safest primary metric because the report is about class separation quality rather than only raw accuracy.
+- The table is intentionally limited to the active modeling paths that are defensible in the current report.

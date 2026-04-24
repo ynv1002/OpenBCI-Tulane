@@ -1,5 +1,0 @@
-{
-  "gate_pass": false,
-  "reason": "the hand LRJ constrained decode did not clear its exact-count/MAE gate",
-  "skipped": true
-}

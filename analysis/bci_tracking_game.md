@@ -88,7 +88,7 @@ The gameplay chart is intentionally simple:
 
 ## Logging
 
-Each run writes a timestamped folder under [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/outputs/bci_tracking_game](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/analysis/outputs/bci_tracking_game).
+Each run now writes a timestamped folder under [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/final_package/live_run_examples](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/final_package/live_run_examples).
 
 Important files now include:
 

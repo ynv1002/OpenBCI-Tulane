@@ -1,3 +1,0 @@
-condition,threshold,accuracy,macro_f1,active_precision,active_recall,misses,false_triggers,train_calibration_windows,test_calibration_windows
-no_normalization,0.4,0.5605839416058395,0.3850162108635155,0.2,0.0328467153284671,265,36,44,44
-calibrated_per_session_baseline,0.4,0.7138686131386861,0.640770152831885,0.8823529411764706,0.3284671532846715,184,12,44,44

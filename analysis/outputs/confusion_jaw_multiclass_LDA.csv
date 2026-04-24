@@ -1,5 +1,0 @@
-,pred_BASELINE,pred_REST,pred_HOLD,pred_REPEATED
-true_BASELINE,0,43,0,1
-true_REST,0,174,0,14
-true_HOLD,3,8,53,4
-true_REPEATED,2,6,0,55

@@ -35,6 +35,17 @@ Run:
 python3 analysis/lr_event_classifier/run_lr_event_classifier.py
 ```
 
+Expanded coverage across any chosen LR files:
+
+```bash
+python3 analysis/lr_event_classifier/run_lr_event_classifier.py \
+  --include-session LR-2-27-26-(01).csv \
+  --include-session LR-3-15-26-(04).csv \
+  --include-session LR-3-8-26-(02).csv \
+  --include-session LR-3-8-26-(03).csv \
+  --output-dir analysis/lr_event_classifier/outputs/all_lr_coverage
+```
+
 Setup:
 
 - centered event window: `0.50 s`
@@ -67,6 +78,7 @@ Current baseline result:
 Interpretation:
 
 - event-level `LEFT` vs `RIGHT` is only weakly learnable with this conservative first-pass representation
+- use the four-file `all_lr_coverage/` run when the question is full LR coverage rather than the strict main-scorecard baseline
 
 ## Second-Pass Spectral Comparison
 

@@ -1,0 +1,2 @@
+mode,source_name,run_time_sec,wall_time_utc,sample_count,decoded_state,status_text,ground_truth_state,jaw_confidence,jaw_onset_confidence,jaw_active_confidence,jaw_event_label,jaw_hold_active,hand_left_confidence,hand_right_confidence,hand_prediction,hand_margin,hand_agreed,hand_notes,hand_state,hand_ready,hand_enabled,jaw_enabled,stale_stream
+REPLAY,Yaniv-LRJ(6)-4:7.csv,0.09227299690246582,2026-04-24T16:42:05.544449+00:00,24,NEUTRAL,hand calibrating (1.9s),UNKNOWN,0.0,0.0,0.0,UNKNOWN,False,0.0,0.0,NEUTRAL,0.0,False,,NEUTRAL,False,True,True,False

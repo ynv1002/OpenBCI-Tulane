@@ -1,5 +1,0 @@
-,pred_BASELINE,pred_REST,pred_LEFT,pred_RIGHT
-true_BASELINE,0,44,0,0
-true_REST,0,411,0,0
-true_LEFT,0,141,0,0
-true_RIGHT,0,133,0,0

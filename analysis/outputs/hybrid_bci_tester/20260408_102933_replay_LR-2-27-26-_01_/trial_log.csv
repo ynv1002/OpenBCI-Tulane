@@ -1,1 +1,0 @@
-prompt_id,target_class,start_time_sec,end_time_sec,start_time_utc,end_time_utc,success,success_time_sec,latency,wrong_detections_count,timeout_flag,detections_json

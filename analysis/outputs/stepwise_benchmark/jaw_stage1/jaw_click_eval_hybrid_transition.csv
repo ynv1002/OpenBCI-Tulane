@@ -1,4 +1,0 @@
-filename,file_path,parsed_date,session_rank,split_role,reference_onsets,detected_clicks,matched_clicks,missed_onsets,extra_clicks,precision,recall,event_f1,median_lag_ms
-HR-2-27-26-(01).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/HR-2-27-26-(01).csv,2026-02-27,1,train,157,35,27,130,8,0.7714285714285715,0.17197452229299362,0.28125,-16.04747772216797
-HR-3-15-26-(03).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/HR-3-15-26-(03).csv,2026-03-15,3,test,124,28,20,104,8,0.7142857142857143,0.16129032258064516,0.2631578947368421,-16.05224609375
-HR-3-8-26-(02).csv,/Users/yanivnaggar/Desktop/Spring 2026/IS/OPENBCI_runs/Yaniv/HR-3-8-26-(02).csv,2026-03-08,2,train,95,33,20,75,13,0.6060606060606061,0.21052631578947367,0.3125,18.05877685546875
