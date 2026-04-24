@@ -799,12 +799,14 @@ class BCITrackingGameApp:
         dialog.transient(self.root)
         dialog.grab_set()
         dialog.resizable(False, False)
-        dialog.lift()
-        try:
-            dialog.attributes("-topmost", True)
-            dialog.after(250, lambda: dialog.attributes("-topmost", False))
-        except self.tk.TclError:
-            pass
+        # `dialog.lift()` and `attributes("-topmost")` can cause an Objective-C
+        # NSInvalidArgumentException on macOS Sonoma/Sequoia.
+        # dialog.lift()
+        # try:
+        #     dialog.attributes("-topmost", True)
+        #     dialog.after(250, lambda: dialog.attributes("-topmost", False))
+        # except self.tk.TclError:
+        #     pass
 
         result: dict[str, Any] = {}
         session_label_var = self.tk.StringVar()
@@ -852,12 +854,14 @@ class BCITrackingGameApp:
         dialog.transient(self.root)
         dialog.grab_set()
         dialog.resizable(False, False)
-        dialog.lift()
-        try:
-            dialog.attributes("-topmost", True)
-            dialog.after(250, lambda: dialog.attributes("-topmost", False))
-        except self.tk.TclError:
-            pass
+        # `dialog.lift()` and `attributes("-topmost")` can cause an Objective-C
+        # NSInvalidArgumentException on macOS Sonoma/Sequoia.
+        # dialog.lift()
+        # try:
+        #     dialog.attributes("-topmost", True)
+        #     dialog.after(250, lambda: dialog.attributes("-topmost", False))
+        # except self.tk.TclError:
+        #     pass
         result: dict[str, Any] = {}
         rating_vars = {field: self.tk.StringVar(value="3") for field in FEEDBACK_FIELDS}
         notes_text = self.tk.Text(dialog, width=46, height=6)
