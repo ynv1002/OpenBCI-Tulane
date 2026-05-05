@@ -1,6 +1,6 @@
 {
   "artifact_version": 2,
-  "created_at_utc": "2026-03-28T06:10:15.725045+00:00",
+  "created_at_utc": "2026-05-05T17:03:26.110680+00:00",
   "event_config": {
     "active_quantile": 0.75,
     "inactive_quantile": 0.9,
@@ -15,7 +15,7 @@
     "peak_prominence_scale": 0.25,
     "release_threshold_mix": 0.15,
     "repeated_fallback_mode": "coarse_single_event",
-    "smoothing_sec": 0.25,
+    "smoothing_sec": 0.12,
     "threshold_mix": 0.35
   },
   "excluded_channels": {
@@ -83,40 +83,40 @@
     "aggregate_rms_smooth_slope"
   ],
   "metrics": {
-    "binary_accuracy": 0.9361448653800334,
-    "binary_macro_f1": 0.9294487347393457,
-    "jaw_4state_accuracy": 0.885394329282821,
-    "jaw_4state_macro_f1": 0.7829440893851161,
+    "binary_accuracy": 0.9346769582618639,
+    "binary_macro_f1": 0.9250703631590445,
+    "jaw_4state_accuracy": 0.8483419096626644,
+    "jaw_4state_macro_f1": 0.6841806477447634,
     "trigger_summary": {
       "strategy_name": "binary_clench_threshold",
-      "test_median_lag_ms": 132.4310302734375,
-      "test_total_clicks": 116,
-      "test_total_extra_clicks": 24,
+      "test_median_lag_ms": 56.182861328125,
+      "test_total_clicks": 142,
+      "test_total_extra_clicks": 31,
       "test_total_references": 124,
-      "test_weighted_event_f1": 0.7666666666666667,
-      "test_weighted_precision": 0.7931034482758621,
-      "test_weighted_recall": 0.7419354838709677,
-      "train_total_clicks": 170,
-      "train_total_extra_clicks": 41,
-      "train_total_references": 252,
-      "train_weighted_event_f1": 0.6120837878068378,
-      "train_weighted_precision": 0.7619825708061001,
-      "train_weighted_recall": 0.5119047619047619,
+      "test_weighted_event_f1": 0.8345864661654135,
+      "test_weighted_precision": 0.7816901408450704,
+      "test_weighted_recall": 0.8951612903225806,
+      "train_total_clicks": 236,
+      "train_total_extra_clicks": 55,
+      "train_total_references": 254,
+      "train_weighted_event_f1": 0.7387262579893933,
+      "train_weighted_precision": 0.7668434425148912,
+      "train_weighted_recall": 0.7125984251968503,
       "trigger_config": {
         "active_probability_threshold": 0.55,
-        "clench_probability_threshold": 0.8,
-        "cooldown_ms": 300,
+        "clench_probability_threshold": 0.65,
+        "cooldown_ms": 50,
         "hold_suppression": true,
         "minimum_clench_rise": 0.0,
         "minimum_envelope_uv": 0.0,
-        "minimum_separation_ms": 300,
+        "minimum_separation_ms": 50,
         "onset_probability_threshold": 0.45,
         "rearm_clench_probability_threshold": 0.5,
         "require_transition_from_inactive": false,
         "smoothing_windows": 1,
         "strategy_name": "binary_clench_threshold"
       },
-      "trigger_config_name": "binary_clench_threshold_cl0p80_on0p45_ac0p55_re0p50_sm1_cd300_rise0p00"
+      "trigger_config_name": "binary_clench_threshold_cl0p65_on0p45_ac0p55_re0p50_sm1_cd50_rise0p00"
     }
   },
   "selected_channels": [
@@ -129,12 +129,12 @@
   ],
   "trigger_config": {
     "active_probability_threshold": 0.55,
-    "clench_probability_threshold": 0.8,
-    "cooldown_ms": 300,
+    "clench_probability_threshold": 0.65,
+    "cooldown_ms": 50,
     "hold_suppression": true,
     "minimum_clench_rise": 0.0,
     "minimum_envelope_uv": 0.0,
-    "minimum_separation_ms": 300,
+    "minimum_separation_ms": 50,
     "onset_probability_threshold": 0.45,
     "rearm_clench_probability_threshold": 0.5,
     "require_transition_from_inactive": false,
@@ -143,6 +143,6 @@
   },
   "window_config": {
     "overlap": 0.5,
-    "window_sec": 0.2
+    "window_sec": 0.12
   }
 }

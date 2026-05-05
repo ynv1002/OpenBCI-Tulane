@@ -1,8 +1,26 @@
 .DS_Store
 .matplotlib-cache/
+.mplconfig/
 __pycache__/
 *.pyc
+*.log
 error.log
 ml_output.log
+
+# Local duplicate copies created by Finder/cloud sync.
+* 2.*
+* 2/
+
+# Generated analysis, replay, and presentation artifacts.
+analysis/outputs/
+presentation_outputs/
+live_runs/all_runs/
+live_runs/examples/
+results 2/
+
+# Scratch promoted-model candidates; keep the canonical runtime artifact tracked.
+models/realtime_clench_model_fast*.json
+models/realtime_clench_model_fast*.pkl
+
 analysis/outputs/jaw_event_samples.csv
 analysis/outputs/stepwise_benchmark/jaw_stage1/jaw_event_samples.csv

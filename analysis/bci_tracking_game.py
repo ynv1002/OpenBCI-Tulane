@@ -438,6 +438,7 @@ def run_headless_replay_smoke(
         jaw_hold_probability_threshold=config.jaw_hold_probability_threshold,
         jaw_hold_onset_sec=config.jaw_hold_onset_sec,
         jaw_hold_release_sec=config.jaw_hold_release_sec,
+        jaw_suppress_clicks_during_hold=config.jaw_suppress_clicks_during_hold,
         stale_stream_warning_sec=config.stale_stream_warning_sec,
         baseline_sec=config.baseline_sec,
         guided_prep_sec=config.guided_prep_sec,

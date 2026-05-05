@@ -48,6 +48,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--autostart", action="store_true", help="Start the selected mode as soon as the window opens.")
     parser.add_argument("--autoplay-replay", action="store_true", help="If replay mode is selected, start playback immediately after loading.")
     parser.add_argument("--auto-close-sec", type=float, help="Close the window automatically after this many wall-clock seconds. Useful for smoke tests.")
+    parser.add_argument(
+        "--suppress-clicks-during-hold",
+        action="store_true",
+        help="Use the older behavior where click outputs are blocked while jaw hold is active.",
+    )
     parser.add_argument("--headless-smoke", action="store_true", help="Run a replay-mode smoke test without opening Tk. This is intended for verification only.")
     parser.add_argument("--probe-live", action="store_true", help="Probe the selected live board connection and exit without launching Tk.")
     return parser.parse_args()
@@ -71,6 +76,7 @@ def main() -> None:
         jaw_hold_probability_threshold=base_config.jaw_hold_probability_threshold,
         jaw_hold_onset_sec=base_config.jaw_hold_onset_sec,
         jaw_hold_release_sec=base_config.jaw_hold_release_sec,
+        jaw_suppress_clicks_during_hold=bool(args.suppress_clicks_during_hold),
         stale_stream_warning_sec=base_config.stale_stream_warning_sec,
     )
     resolved_playback_file = args.playback_file.resolve() if args.playback_file else None
