@@ -27,9 +27,9 @@ The replay path is still available for debugging and demo work.
 The decoder still keeps the branches separate:
 
 - `jaw branch`
-  - reuses the current jaw runtime artifact and click trigger
-  - short jaw pulse becomes `click`
-  - sustained jaw activity becomes `click + hold`
+  - reuses one jaw runtime artifact for clench/onset/active/offset probabilities
+  - short jaw activity becomes `click`
+  - sustained jaw activity becomes `hold_start` and `hold_end`
 - `hand branch`
   - reuses the current event-gated left/right runtime logic
   - emits conservative `LEFT` and `RIGHT`
@@ -46,10 +46,9 @@ The live session uses OpenBCI-style same-code start/end markers that match the o
 
 Guided collection order:
 
-- `LEFT 1..6`
-- `RIGHT 1..6`
-- `JAW tap 1..6`
-- `HOLD x6`
+- `LEFT x1`, `RIGHT x1`, `JAW tap x1`, `HOLD 1`
+- `LEFT x2`, `RIGHT x2`, `JAW tap x2`, `HOLD 2`
+- continues through `x6`
 
 In v1 the system adapts session-local thresholds and gating on top of the existing saved artifacts. It does not retrain weights yet.
 
@@ -62,7 +61,7 @@ In v1 the system adapts session-local thresholds and gating on top of the existi
 - `JAW tap`
   - jaw `click`
 - `JAW hold`
-  - jaw `click + hold`
+  - jaw `hold_start` while active, then `hold_end` after release
 
 The gameplay chart is intentionally simple:
 

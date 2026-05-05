@@ -19,11 +19,12 @@ Recommended top-line narrative:
 
 Primary code evidence:
 
-- `gui_game_code/run_bci_tracking_game.py`
-- `gui_game_code/bci_tracking_game.py`
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/bci_session_flow.py`
-- `gui_game_code/bci_tracking_game.md`
+- `analysis/run_bci_tracking_game.py`
+- `analysis/bci_tracking_game.py`
+- `analysis/bci_game_runtime.py`
+- `analysis/bci_session_flow.py`
+- `analysis/bci_tracking_game.md`
+- `FINAL_RUNTIME_SPEC.md`
 
 What these files support:
 
@@ -33,26 +34,26 @@ What these files support:
 
 Strongest references:
 
-- `gui_game_code/bci_tracking_game.md`
-- `gui_game_code/bci_tracking_game.py`
+- `analysis/bci_tracking_game.md`
+- `analysis/bci_tracking_game.py`
 
 Key details:
 
-- `gui_game_code/bci_tracking_game.md` explicitly documents:
+- `analysis/bci_tracking_game.md` explicitly documents:
   - `45 second baseline`
   - guided collection
   - session-local adaptation
   - `Session Ready`
   - `Review + Start Game`
   - gameplay review
-- `gui_game_code/bci_tracking_game.py` contains the actual UI/session-phase logic for baseline, adaptation, readiness, and game start.
+- `analysis/bci_tracking_game.py` contains the actual UI/session-phase logic for baseline, adaptation, readiness, and game start.
 
 ## 3. Claim: This Is A Hybrid System, Not One All-Encompassing Model
 
 Primary evidence:
 
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/hybrid_bci_tester.py`
+- `analysis/bci_game_runtime.py`
+- `analysis/hybrid_bci_tester.py`
 - `report/data_modeling_report_draft.md`
 
 What these files support:
@@ -63,7 +64,7 @@ What these files support:
 
 Key details:
 
-- `gui_game_code/bci_game_runtime.py` loads:
+- `analysis/bci_game_runtime.py` loads:
   - `models/realtime_clench_model.pkl`
   - `models/clean_left_right_window_model.pkl`
 - `report/data_modeling_report_draft.md` already frames the work as separate scientific questions for jaw and `LEFT/RIGHT`.
@@ -88,9 +89,10 @@ Key numbers:
 
 - `jaw_stage1/summary.md`
   - best strategy: `binary_clench_threshold`
-  - test weighted event-F1: `0.767`
-  - precision: `0.793`
-  - recall: `0.742`
+  - promoted fast runtime test weighted event-F1: `0.835`
+  - precision: `0.782`
+  - recall: `0.895`
+  - median lag: `56.2 ms`
 - `jaw_stage2/summary.md`
   - gate pass: `True`
   - best macro-F1: `1.000`
@@ -98,7 +100,7 @@ Key numbers:
 Runtime evidence:
 
 - `analysis/realtime_clench_detector.py`
-- `gui_game_code/bci_game_runtime.py`
+- `analysis/bci_game_runtime.py`
 
 Important nuance:
 
@@ -112,8 +114,8 @@ Primary evidence:
 - `models/realtime_clench_model.pkl`
 - `results/jaw_results.md`
 - `analysis/realtime_clench_detector.py`
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/bci_tracking_game.md`
+- `analysis/bci_game_runtime.py`
+- `analysis/bci_tracking_game.md`
 
 What these files support:
 
@@ -136,8 +138,8 @@ Primary evidence:
 - `results/left_right_lr_results.md`
 - `results/left_right_windowed_results.md`
 - `analysis/run_eeg_direction_clean_cross_session.py`
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/bci_session_flow.py`
+- `analysis/bci_game_runtime.py`
+- `analysis/bci_session_flow.py`
 
 What these files support:
 
@@ -170,9 +172,9 @@ Recommended wording:
 Primary evidence:
 
 - `analysis/run_eeg_direction_clean_cross_session.py`
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/bci_session_flow.py`
-- `gui_game_code/bci_tracking_game.md`
+- `analysis/bci_game_runtime.py`
+- `analysis/bci_session_flow.py`
+- `analysis/bci_tracking_game.md`
 
 What these files support:
 
@@ -228,8 +230,8 @@ Important caution:
 
 Primary evidence:
 
-- `gui_game_code/bci_tracking_game.md`
-- `gui_game_code/run_bci_tracking_game.py`
+- `analysis/bci_tracking_game.md`
+- `analysis/run_bci_tracking_game.py`
 - `results/stepwise_benchmark/summary.md`
 - `live_runs/examples/20260415_103538_live_cyton_Testing-1/`
 - `live_runs/examples/20260415_103646_live_cyton_Testing-2/`
@@ -299,10 +301,10 @@ Safer alternatives:
 
 If we keep the branch narrow, the best evidence spine is:
 
-- `gui_game_code/bci_tracking_game.py`
-- `gui_game_code/bci_game_runtime.py`
-- `gui_game_code/bci_session_flow.py`
-- `gui_game_code/run_bci_tracking_game.py`
+- `analysis/bci_tracking_game.py`
+- `analysis/bci_game_runtime.py`
+- `analysis/bci_session_flow.py`
+- `analysis/run_bci_tracking_game.py`
 - `analysis/stepwise_protocol_registry.py`
 - `analysis/run_stepwise_benchmark.py`
 - `results/stepwise_benchmark/summary.md`

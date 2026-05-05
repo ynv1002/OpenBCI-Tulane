@@ -94,6 +94,7 @@ DEFAULT_HAND_EVENT_LOOKBACK_SEC = 8.0
 DEFAULT_JAW_HOLD_PROBABILITY_THRESHOLD = 0.70
 DEFAULT_JAW_HOLD_ONSET_SEC = 0.45
 DEFAULT_JAW_HOLD_RELEASE_SEC = 0.18
+DEFAULT_JAW_SUPPRESS_CLICKS_DURING_HOLD = False
 DEFAULT_STALE_STREAM_WARNING_SEC = 1.0
 DEFAULT_BASELINE_SEC = 45.0
 DEFAULT_GUIDED_PREP_SEC = 1.2
@@ -101,6 +102,7 @@ DEFAULT_GUIDED_REST_SEC = 1.3
 DEFAULT_GUIDED_TAP_BASE_SEC = 1.2
 DEFAULT_GUIDED_TAP_PER_COUNT_SEC = 0.80
 DEFAULT_GUIDED_HOLD_SEC = 1.5
+DEFAULT_GUIDED_REPETITIONS = 6
 DEFAULT_GUIDED_HOLD_TRIALS = 6
 DEFAULT_GAME_NOTE_CYCLES = 3
 
@@ -267,6 +269,7 @@ class BCITrackingGameConfig:
     jaw_hold_probability_threshold: float = DEFAULT_JAW_HOLD_PROBABILITY_THRESHOLD
     jaw_hold_onset_sec: float = DEFAULT_JAW_HOLD_ONSET_SEC
     jaw_hold_release_sec: float = DEFAULT_JAW_HOLD_RELEASE_SEC
+    jaw_suppress_clicks_during_hold: bool = DEFAULT_JAW_SUPPRESS_CLICKS_DURING_HOLD
     stale_stream_warning_sec: float = DEFAULT_STALE_STREAM_WARNING_SEC
     baseline_sec: float = DEFAULT_BASELINE_SEC
     guided_prep_sec: float = DEFAULT_GUIDED_PREP_SEC
@@ -274,6 +277,7 @@ class BCITrackingGameConfig:
     guided_tap_base_sec: float = DEFAULT_GUIDED_TAP_BASE_SEC
     guided_tap_per_count_sec: float = DEFAULT_GUIDED_TAP_PER_COUNT_SEC
     guided_hold_sec: float = DEFAULT_GUIDED_HOLD_SEC
+    guided_repetitions: int = DEFAULT_GUIDED_REPETITIONS
     guided_hold_trials: int = DEFAULT_GUIDED_HOLD_TRIALS
     game_note_cycles: int = DEFAULT_GAME_NOTE_CYCLES
 
@@ -317,6 +321,7 @@ class TrackingSnapshot:
     jaw_confidence: float
     jaw_onset_confidence: float
     jaw_active_confidence: float
+    jaw_offset_confidence: float
     jaw_event_label: str
     jaw_hold_active: bool
     jaw_enabled: bool
@@ -601,6 +606,7 @@ class JawHoldInterpreter:
         self.hold_probability_threshold = float(config.jaw_hold_probability_threshold)
         self.hold_onset_sec = float(config.jaw_hold_onset_sec)
         self.hold_release_sec = float(config.jaw_hold_release_sec)
+        self.suppress_clicks_during_hold = bool(config.jaw_suppress_clicks_during_hold)
         self.reset()
 
     def reset(self) -> None:
@@ -614,6 +620,7 @@ class JawHoldInterpreter:
         hold_probability_threshold: float | None = None,
         hold_onset_sec: float | None = None,
         hold_release_sec: float | None = None,
+        suppress_clicks_during_hold: bool | None = None,
     ) -> None:
         if hold_probability_threshold is not None:
             self.hold_probability_threshold = float(hold_probability_threshold)
@@ -621,6 +628,8 @@ class JawHoldInterpreter:
             self.hold_onset_sec = float(hold_onset_sec)
         if hold_release_sec is not None:
             self.hold_release_sec = float(hold_release_sec)
+        if suppress_clicks_during_hold is not None:
+            self.suppress_clicks_during_hold = bool(suppress_clicks_during_hold)
 
     def update(self, timestamp_sec: float, jaw_step: dict[str, Any]) -> tuple[bool, list[ControlEvent]]:
         jaw_confidence = float(jaw_step.get("jaw_probability", 0.0))
@@ -634,7 +643,8 @@ class JawHoldInterpreter:
         )
 
         events: list[ControlEvent] = []
-        if bool(jaw_step.get("emitted_click", False)) and not self.hold_active:
+        click_allowed = not self.hold_active or not self.suppress_clicks_during_hold
+        if bool(jaw_step.get("emitted_click", False)) and click_allowed:
             events.append(
                 ControlEvent(
                     timestamp_sec=timestamp_sec,
@@ -771,6 +781,7 @@ class BCITrackingDecoder:
             "jaw_probability": 0.0,
             "jaw_onset_probability": 0.0,
             "jaw_active_probability": 0.0,
+            "jaw_offset_probability": 0.0,
             "jaw_event_label": GROUND_TRUTH_UNKNOWN,
             "emitted_click": False,
             "trigger_reason": "not_started",
@@ -819,12 +830,13 @@ class BCITrackingDecoder:
                 "selected_channels": list(self.jaw_model.selected_channels),
                 "window_sec": float(self.jaw_model.window_sec),
                 "smoothing_sec": float(self.jaw_model.smoothing_sec),
-                "decision_style": "jaw_trigger_plus_hold_interpreter",
+                "decision_style": "single_jaw_artifact_with_click_hold_outputs",
                 "trigger_config": jaw_trigger_cfg,
                 "hold_runtime": {
                     "hold_probability_threshold": float(self.jaw_interpreter.hold_probability_threshold),
                     "hold_onset_sec": float(self.jaw_interpreter.hold_onset_sec),
                     "hold_release_sec": float(self.jaw_interpreter.hold_release_sec),
+                    "suppress_clicks_during_hold": bool(self.jaw_interpreter.suppress_clicks_during_hold),
                 },
             },
         }
@@ -834,10 +846,14 @@ class BCITrackingDecoder:
         jaw_settings = dict(adaptation_summary.get("jaw", {}).get("settings", {}))
 
         if hand_settings:
+            updates = {}
             if "direction_min_confidence" in hand_settings:
-                self.direction_model.decoder_cfg.direction_min_confidence = float(hand_settings["direction_min_confidence"])
+                updates["direction_min_confidence"] = float(hand_settings["direction_min_confidence"])
             if "direction_margin" in hand_settings:
-                self.direction_model.decoder_cfg.direction_margin = float(hand_settings["direction_margin"])
+                updates["direction_margin"] = float(hand_settings["direction_margin"])
+            if updates:
+                from dataclasses import replace
+                self.direction_model.decoder_cfg = replace(self.direction_model.decoder_cfg, **updates)
             self.hand_interpreter.apply_runtime_tuning(
                 action_latch_sec=hand_settings.get("hand_action_latch_sec"),
                 switch_cooldown_sec=hand_settings.get("hand_switch_cooldown_sec"),
@@ -870,6 +886,7 @@ class BCITrackingDecoder:
                 hold_probability_threshold=jaw_settings.get("hold_probability_threshold"),
                 hold_onset_sec=jaw_settings.get("hold_onset_sec"),
                 hold_release_sec=jaw_settings.get("hold_release_sec"),
+                suppress_clicks_during_hold=jaw_settings.get("suppress_clicks_during_hold"),
             )
 
         return self.classifier_provenance()
@@ -954,6 +971,7 @@ class BCITrackingDecoder:
                 "jaw_probability": 0.0,
                 "jaw_onset_probability": 0.0,
                 "jaw_active_probability": 0.0,
+                "jaw_offset_probability": 0.0,
                 "jaw_event_label": GROUND_TRUTH_UNKNOWN,
                 "emitted_click": False,
                 "trigger_reason": "insufficient_history",
@@ -1039,6 +1057,7 @@ class BCITrackingDecoder:
                 "jaw_probability": 0.0,
                 "jaw_onset_probability": 0.0,
                 "jaw_active_probability": 0.0,
+                "jaw_offset_probability": 0.0,
                 "jaw_event_label": "DISABLED",
                 "emitted_click": False,
                 "trigger_reason": "disabled_for_replay_contract",
@@ -1073,6 +1092,7 @@ class BCITrackingDecoder:
             jaw_confidence=float(self.latest_jaw_step.get("jaw_probability", 0.0)),
             jaw_onset_confidence=float(self.latest_jaw_step.get("jaw_onset_probability", 0.0)),
             jaw_active_confidence=float(self.latest_jaw_step.get("jaw_active_probability", 0.0)),
+            jaw_offset_confidence=float(self.latest_jaw_step.get("jaw_offset_probability", 0.0)),
             jaw_event_label=str(self.latest_jaw_step.get("jaw_event_label", GROUND_TRUTH_UNKNOWN)),
             jaw_hold_active=bool(hold_active),
             jaw_enabled=self.jaw_enabled,
@@ -1210,6 +1230,7 @@ class ReplayGameController:
                     "jaw_confidence": float(snapshot.jaw_confidence),
                     "jaw_onset_confidence": float(snapshot.jaw_onset_confidence),
                     "jaw_active_confidence": float(snapshot.jaw_active_confidence),
+                    "jaw_offset_confidence": float(snapshot.jaw_offset_confidence),
                     "jaw_event_label": snapshot.jaw_event_label,
                     "jaw_hold_active": bool(snapshot.jaw_hold_active),
                     "hand_left_confidence": float(snapshot.hand_left_confidence),
@@ -1400,6 +1421,7 @@ class LiveGameController:
                     "jaw_confidence": float(snapshot.jaw_confidence),
                     "jaw_onset_confidence": float(snapshot.jaw_onset_confidence),
                     "jaw_active_confidence": float(snapshot.jaw_active_confidence),
+                    "jaw_offset_confidence": float(snapshot.jaw_offset_confidence),
                     "jaw_event_label": snapshot.jaw_event_label,
                     "jaw_hold_active": bool(snapshot.jaw_hold_active),
                     "hand_left_confidence": float(snapshot.hand_left_confidence),

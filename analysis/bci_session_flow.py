@@ -358,17 +358,18 @@ def build_guided_protocol(
     tap_per_count_sec: float,
     hold_duration_sec: float,
     hold_trials: int,
+    repetitions: int = 6,
 ) -> list[GuidedProtocolStep]:
     steps: list[GuidedProtocolStep] = []
     step_number = 1
 
-    for action_label, display_prefix in (
-        (PROTOCOL_LABEL_LEFT, "LEFT"),
-        (PROTOCOL_LABEL_RIGHT, "RIGHT"),
-        (PROTOCOL_LABEL_JAW_TAP, "JAW"),
-    ):
-        marker_code = MARKER_CODE_BY_LABEL[action_label]
-        for expected_count in range(1, 7):
+    for expected_count in range(1, int(repetitions) + 1):
+        for action_label, display_prefix in (
+            (PROTOCOL_LABEL_LEFT, "LEFT"),
+            (PROTOCOL_LABEL_RIGHT, "RIGHT"),
+            (PROTOCOL_LABEL_JAW_TAP, "JAW"),
+        ):
+            marker_code = MARKER_CODE_BY_LABEL[action_label]
             active_sec = float(tap_base_sec + tap_per_count_sec * expected_count)
             if action_label == PROTOCOL_LABEL_JAW_TAP:
                 instruction = f"Jaw clench {expected_count} time{'s' if expected_count != 1 else ''} during the block."
@@ -389,7 +390,25 @@ def build_guided_protocol(
             )
             step_number += 1
 
-    for hold_index in range(1, hold_trials + 1):
+        if expected_count <= int(hold_trials):
+            hold_index = expected_count
+            steps.append(
+                GuidedProtocolStep(
+                    step_id=f"step_{step_number:02d}_hold_{hold_index}",
+                    action_label=PROTOCOL_LABEL_HOLD,
+                    display_text=f"HOLD trial {hold_index}",
+                    instruction_text=f"Jaw clench and hold for {hold_duration_sec:.1f} seconds.",
+                    marker_code=MARKER_CODE_BY_LABEL[PROTOCOL_LABEL_HOLD],
+                    expected_count=None,
+                    prep_sec=float(prep_sec),
+                    active_sec=float(hold_duration_sec),
+                    rest_sec=float(rest_sec),
+                    hold_duration_sec=float(hold_duration_sec),
+                )
+            )
+            step_number += 1
+
+    for hold_index in range(int(repetitions) + 1, int(hold_trials) + 1):
         steps.append(
             GuidedProtocolStep(
                 step_id=f"step_{step_number:02d}_hold_{hold_index}",
@@ -588,7 +607,7 @@ def compute_session_adaptation(
     return {
         "jaw": {
             "used_adapted_settings": bool(jaw_adapted),
-            "decision_style": "jaw_trigger_plus_hold_interpreter",
+            "decision_style": "single_jaw_artifact_with_click_hold_outputs",
             "settings": {
                 "click_threshold": float(jaw_click_threshold),
                 "rearm_threshold": float(jaw_rearm_threshold),

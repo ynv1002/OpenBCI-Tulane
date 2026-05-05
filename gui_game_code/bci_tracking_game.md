@@ -19,19 +19,17 @@ The replay path is still available for debugging and demo work.
 
 ## Architecture
 
-- Runtime decoding and logging live in [bci_game_runtime.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/gui_game_code/bci_game_runtime.py).
-- Session flow, adaptation heuristics, and the note chart logic live in [bci_session_flow.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/gui_game_code/bci_session_flow.py).
-- The Tk app lives in [bci_tracking_game.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/gui_game_code/bci_tracking_game.py).
-- The CLI entrypoint is [run_bci_tracking_game.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/gui_game_code/run_bci_tracking_game.py).
-
-These files are professor-facing copies of the active runtime stack from the root `analysis/` directory.
+- Runtime decoding and logging live in [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/bci_game_runtime.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/analysis/bci_game_runtime.py).
+- Session flow, adaptation heuristics, and the note chart logic live in [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/bci_session_flow.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/analysis/bci_session_flow.py).
+- The Tk app lives in [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/bci_tracking_game.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/analysis/bci_tracking_game.py).
+- The CLI entrypoint is [/Users/yanivnaggar/Desktop/Spring 2026/IS/BCI-project/analysis/run_bci_tracking_game.py](/Users/yanivnaggar/Desktop/Spring%202026/IS/BCI-project/analysis/run_bci_tracking_game.py).
 
 The decoder still keeps the branches separate:
 
 - `jaw branch`
-  - reuses the current jaw runtime artifact and click trigger
-  - short jaw pulse becomes `click`
-  - sustained jaw activity becomes `click + hold`
+  - reuses one jaw runtime artifact for clench/onset/active/offset probabilities
+  - short jaw activity becomes `click`
+  - sustained jaw activity becomes `hold_start` and `hold_end`
 - `hand branch`
   - reuses the current event-gated left/right runtime logic
   - emits conservative `LEFT` and `RIGHT`
@@ -48,10 +46,9 @@ The live session uses OpenBCI-style same-code start/end markers that match the o
 
 Guided collection order:
 
-- `LEFT 1..6`
-- `RIGHT 1..6`
-- `JAW tap 1..6`
-- `HOLD x6`
+- `LEFT x1`, `RIGHT x1`, `JAW tap x1`, `HOLD 1`
+- `LEFT x2`, `RIGHT x2`, `JAW tap x2`, `HOLD 2`
+- continues through `x6`
 
 In v1 the system adapts session-local thresholds and gating on top of the existing saved artifacts. It does not retrain weights yet.
 
@@ -64,7 +61,7 @@ In v1 the system adapts session-local thresholds and gating on top of the existi
 - `JAW tap`
   - jaw `click`
 - `JAW hold`
-  - jaw `click + hold`
+  - jaw `hold_start` while active, then `hold_end` after release
 
 The gameplay chart is intentionally simple:
 

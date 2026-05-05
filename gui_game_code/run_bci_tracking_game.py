@@ -1,5 +1,22 @@
 from __future__ import annotations
 
+# Import tkinter first to prevent MacOS segfaults
+import tkinter as tk
+
+# Pre-import heavy ML/Bluetooth libraries on the main thread to prevent
+# segfaults when they are lazy-loaded or used from the background thread.
+try:
+    from brainflow.board_shim import BoardIds, BoardShim, BrainFlowInputParams
+except ImportError:
+    pass
+
+try:
+    import sklearn
+    from sklearn.linear_model import LogisticRegression
+    import scipy
+except ImportError:
+    pass
+
 import argparse
 from pathlib import Path
 import sys
@@ -23,7 +40,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--jaw-artifact", type=Path, default=BCITrackingGameConfig().jaw_artifact_path)
     parser.add_argument("--direction-artifact", type=Path, default=BCITrackingGameConfig().direction_artifact_path)
     parser.add_argument("--output-root", type=Path, default=BCITrackingGameConfig().output_root)
-    parser.add_argument("--calibration-sec", type=float, default=BCITrackingGameConfig().calibration_sec)
+    parser.add_argument("--calibration-sec", type=float, default=BCITrackingGameConfig().calibration_sec, help="Seconds of baseline data used to normalize the hand branch.")
+    parser.add_argument("--baseline-sec", type=float, default=BCITrackingGameConfig().baseline_sec, help="Live baseline phase duration before guided collection.")
+    parser.add_argument("--guided-repetitions", type=int, default=BCITrackingGameConfig().guided_repetitions, help="Number of incrementing L/R/J/Hold guided blocks.")
     parser.add_argument("--board", type=str, default="cyton", choices=("cyton", "synthetic", "playback"), help="BrainFlow board preset for live mode.")
     parser.add_argument("--serial-port", type=str, default="", help="Cyton serial port for live mode.")
     parser.add_argument("--playback-file", type=Path, help="Playback file for BrainFlow playback board mode.")
@@ -31,6 +50,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--autostart", action="store_true", help="Start the selected mode as soon as the window opens.")
     parser.add_argument("--autoplay-replay", action="store_true", help="If replay mode is selected, start playback immediately after loading.")
     parser.add_argument("--auto-close-sec", type=float, help="Close the window automatically after this many wall-clock seconds. Useful for smoke tests.")
+    parser.add_argument(
+        "--suppress-clicks-during-hold",
+        action="store_true",
+        help="Use the older behavior where click outputs are blocked while jaw hold is active.",
+    )
     parser.add_argument("--headless-smoke", action="store_true", help="Run a replay-mode smoke test without opening Tk. This is intended for verification only.")
     parser.add_argument("--probe-live", action="store_true", help="Probe the selected live board connection and exit without launching Tk.")
     return parser.parse_args()
@@ -54,7 +78,17 @@ def main() -> None:
         jaw_hold_probability_threshold=base_config.jaw_hold_probability_threshold,
         jaw_hold_onset_sec=base_config.jaw_hold_onset_sec,
         jaw_hold_release_sec=base_config.jaw_hold_release_sec,
+        jaw_suppress_clicks_during_hold=bool(args.suppress_clicks_during_hold),
         stale_stream_warning_sec=base_config.stale_stream_warning_sec,
+        baseline_sec=float(args.baseline_sec),
+        guided_prep_sec=base_config.guided_prep_sec,
+        guided_rest_sec=base_config.guided_rest_sec,
+        guided_tap_base_sec=base_config.guided_tap_base_sec,
+        guided_tap_per_count_sec=base_config.guided_tap_per_count_sec,
+        guided_hold_sec=base_config.guided_hold_sec,
+        guided_repetitions=int(args.guided_repetitions),
+        guided_hold_trials=base_config.guided_hold_trials,
+        game_note_cycles=base_config.game_note_cycles,
     )
     resolved_playback_file = args.playback_file.resolve() if args.playback_file else None
     if args.probe_live:

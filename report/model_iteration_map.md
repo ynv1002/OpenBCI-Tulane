@@ -15,9 +15,10 @@ This file is the shortest answer to:
 - Main code:
   - `analysis/realtime_clench_detector.py`
   - `analysis/live_jaw_click_detector.py`
+  - `analysis/jaw_fast_trigger_sweep.py`
+  - `analysis/validate_fast_jaw_model_all_datasets.py`
 - Runtime use:
   - `analysis/bci_game_runtime.py`
-  - `gui_game_code/bci_game_runtime.py`
 - Data family:
   - jaw-focused sessions
 - Result file:
@@ -25,6 +26,7 @@ This file is the shortest answer to:
 - Status:
   - chosen
   - strongest branch in the project
+  - promoted runtime artifact uses a `0.12 s` window, `0.12 s` smoothing, `0.65` click threshold, and `50 ms` cooldown
 
 ## 2. Left/Right Windowed Runtime Model
 

@@ -14,6 +14,10 @@ If the question is "where is the model and which script produced it?", use:
 
 - `../report/model_iteration_map.md`
 
+If the question is "what is the final runtime supposed to do?", use:
+
+- `../FINAL_RUNTIME_SPEC.md`
+
 ## Main Runtime Files
 
 - `run_bci_tracking_game.py`
@@ -71,7 +75,7 @@ The runtime does not do full live retraining.
 It uses:
 
 - saved artifacts from `../models/`
-- baseline and guided-session calibration
+- `45 second` baseline and guided `LEFT` / `RIGHT` / `JAW tap` / `HOLD` collection
 - session-local threshold and decision tuning
 
 That is why the professor-facing write-up describes the system as a hybrid calibrated runtime, not a single universal model.

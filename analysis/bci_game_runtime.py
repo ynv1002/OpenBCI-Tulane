@@ -102,6 +102,7 @@ DEFAULT_GUIDED_REST_SEC = 1.3
 DEFAULT_GUIDED_TAP_BASE_SEC = 1.2
 DEFAULT_GUIDED_TAP_PER_COUNT_SEC = 0.80
 DEFAULT_GUIDED_HOLD_SEC = 1.5
+DEFAULT_GUIDED_REPETITIONS = 6
 DEFAULT_GUIDED_HOLD_TRIALS = 6
 DEFAULT_GAME_NOTE_CYCLES = 3
 
@@ -276,6 +277,7 @@ class BCITrackingGameConfig:
     guided_tap_base_sec: float = DEFAULT_GUIDED_TAP_BASE_SEC
     guided_tap_per_count_sec: float = DEFAULT_GUIDED_TAP_PER_COUNT_SEC
     guided_hold_sec: float = DEFAULT_GUIDED_HOLD_SEC
+    guided_repetitions: int = DEFAULT_GUIDED_REPETITIONS
     guided_hold_trials: int = DEFAULT_GUIDED_HOLD_TRIALS
     game_note_cycles: int = DEFAULT_GAME_NOTE_CYCLES
 
@@ -319,6 +321,7 @@ class TrackingSnapshot:
     jaw_confidence: float
     jaw_onset_confidence: float
     jaw_active_confidence: float
+    jaw_offset_confidence: float
     jaw_event_label: str
     jaw_hold_active: bool
     jaw_enabled: bool
@@ -778,6 +781,7 @@ class BCITrackingDecoder:
             "jaw_probability": 0.0,
             "jaw_onset_probability": 0.0,
             "jaw_active_probability": 0.0,
+            "jaw_offset_probability": 0.0,
             "jaw_event_label": GROUND_TRUTH_UNKNOWN,
             "emitted_click": False,
             "trigger_reason": "not_started",
@@ -826,7 +830,7 @@ class BCITrackingDecoder:
                 "selected_channels": list(self.jaw_model.selected_channels),
                 "window_sec": float(self.jaw_model.window_sec),
                 "smoothing_sec": float(self.jaw_model.smoothing_sec),
-                "decision_style": "jaw_trigger_plus_hold_interpreter",
+                "decision_style": "single_jaw_artifact_with_click_hold_outputs",
                 "trigger_config": jaw_trigger_cfg,
                 "hold_runtime": {
                     "hold_probability_threshold": float(self.jaw_interpreter.hold_probability_threshold),
@@ -967,6 +971,7 @@ class BCITrackingDecoder:
                 "jaw_probability": 0.0,
                 "jaw_onset_probability": 0.0,
                 "jaw_active_probability": 0.0,
+                "jaw_offset_probability": 0.0,
                 "jaw_event_label": GROUND_TRUTH_UNKNOWN,
                 "emitted_click": False,
                 "trigger_reason": "insufficient_history",
@@ -1052,6 +1057,7 @@ class BCITrackingDecoder:
                 "jaw_probability": 0.0,
                 "jaw_onset_probability": 0.0,
                 "jaw_active_probability": 0.0,
+                "jaw_offset_probability": 0.0,
                 "jaw_event_label": "DISABLED",
                 "emitted_click": False,
                 "trigger_reason": "disabled_for_replay_contract",
@@ -1086,6 +1092,7 @@ class BCITrackingDecoder:
             jaw_confidence=float(self.latest_jaw_step.get("jaw_probability", 0.0)),
             jaw_onset_confidence=float(self.latest_jaw_step.get("jaw_onset_probability", 0.0)),
             jaw_active_confidence=float(self.latest_jaw_step.get("jaw_active_probability", 0.0)),
+            jaw_offset_confidence=float(self.latest_jaw_step.get("jaw_offset_probability", 0.0)),
             jaw_event_label=str(self.latest_jaw_step.get("jaw_event_label", GROUND_TRUTH_UNKNOWN)),
             jaw_hold_active=bool(hold_active),
             jaw_enabled=self.jaw_enabled,
@@ -1223,6 +1230,7 @@ class ReplayGameController:
                     "jaw_confidence": float(snapshot.jaw_confidence),
                     "jaw_onset_confidence": float(snapshot.jaw_onset_confidence),
                     "jaw_active_confidence": float(snapshot.jaw_active_confidence),
+                    "jaw_offset_confidence": float(snapshot.jaw_offset_confidence),
                     "jaw_event_label": snapshot.jaw_event_label,
                     "jaw_hold_active": bool(snapshot.jaw_hold_active),
                     "hand_left_confidence": float(snapshot.hand_left_confidence),
@@ -1413,6 +1421,7 @@ class LiveGameController:
                     "jaw_confidence": float(snapshot.jaw_confidence),
                     "jaw_onset_confidence": float(snapshot.jaw_onset_confidence),
                     "jaw_active_confidence": float(snapshot.jaw_active_confidence),
+                    "jaw_offset_confidence": float(snapshot.jaw_offset_confidence),
                     "jaw_event_label": snapshot.jaw_event_label,
                     "jaw_hold_active": bool(snapshot.jaw_hold_active),
                     "hand_left_confidence": float(snapshot.hand_left_confidence),

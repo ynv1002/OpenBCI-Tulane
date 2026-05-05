@@ -438,6 +438,7 @@ def run_headless_replay_smoke(
         jaw_hold_probability_threshold=config.jaw_hold_probability_threshold,
         jaw_hold_onset_sec=config.jaw_hold_onset_sec,
         jaw_hold_release_sec=config.jaw_hold_release_sec,
+        jaw_suppress_clicks_during_hold=config.jaw_suppress_clicks_during_hold,
         stale_stream_warning_sec=config.stale_stream_warning_sec,
         baseline_sec=config.baseline_sec,
         guided_prep_sec=config.guided_prep_sec,
@@ -445,6 +446,7 @@ def run_headless_replay_smoke(
         guided_tap_base_sec=config.guided_tap_base_sec,
         guided_tap_per_count_sec=config.guided_tap_per_count_sec,
         guided_hold_sec=config.guided_hold_sec,
+        guided_repetitions=config.guided_repetitions,
         guided_hold_trials=config.guided_hold_trials,
         game_note_cycles=config.game_note_cycles,
     )
@@ -583,6 +585,7 @@ class BCITrackingGameApp:
         self.jaw_conf_var = tk.DoubleVar(value=0.0)
         self.jaw_onset_var = tk.DoubleVar(value=0.0)
         self.jaw_active_var = tk.DoubleVar(value=0.0)
+        self.jaw_offset_var = tk.DoubleVar(value=0.0)
 
         self._build_ui()
         self._refresh_controls()
@@ -665,6 +668,7 @@ class BCITrackingGameApp:
         self._build_progress_block(jaw_frame, "Clench", self.jaw_conf_var)
         self._build_progress_block(jaw_frame, "Onset", self.jaw_onset_var)
         self._build_progress_block(jaw_frame, "Active", self.jaw_active_var)
+        self._build_progress_block(jaw_frame, "Offset", self.jaw_offset_var)
 
         hand_frame = self.ttk.LabelFrame(sidebar, text="Hand Branch", padding=12)
         hand_frame.pack(fill="x", pady=(0, 10))
@@ -799,12 +803,14 @@ class BCITrackingGameApp:
         dialog.transient(self.root)
         dialog.grab_set()
         dialog.resizable(False, False)
-        dialog.lift()
-        try:
-            dialog.attributes("-topmost", True)
-            dialog.after(250, lambda: dialog.attributes("-topmost", False))
-        except self.tk.TclError:
-            pass
+        # `dialog.lift()` and `attributes("-topmost")` can cause an Objective-C
+        # NSInvalidArgumentException on macOS Sonoma/Sequoia.
+        # dialog.lift()
+        # try:
+        #     dialog.attributes("-topmost", True)
+        #     dialog.after(250, lambda: dialog.attributes("-topmost", False))
+        # except self.tk.TclError:
+        #     pass
 
         result: dict[str, Any] = {}
         session_label_var = self.tk.StringVar()
@@ -852,12 +858,14 @@ class BCITrackingGameApp:
         dialog.transient(self.root)
         dialog.grab_set()
         dialog.resizable(False, False)
-        dialog.lift()
-        try:
-            dialog.attributes("-topmost", True)
-            dialog.after(250, lambda: dialog.attributes("-topmost", False))
-        except self.tk.TclError:
-            pass
+        # `dialog.lift()` and `attributes("-topmost")` can cause an Objective-C
+        # NSInvalidArgumentException on macOS Sonoma/Sequoia.
+        # dialog.lift()
+        # try:
+        #     dialog.attributes("-topmost", True)
+        #     dialog.after(250, lambda: dialog.attributes("-topmost", False))
+        # except self.tk.TclError:
+        #     pass
         result: dict[str, Any] = {}
         rating_vars = {field: self.tk.StringVar(value="3") for field in FEEDBACK_FIELDS}
         notes_text = self.tk.Text(dialog, width=46, height=6)
@@ -908,6 +916,7 @@ class BCITrackingGameApp:
             tap_per_count_sec=self.config.guided_tap_per_count_sec,
             hold_duration_sec=self.config.guided_hold_sec,
             hold_trials=self.config.guided_hold_trials,
+            repetitions=self.config.guided_repetitions,
         )
 
     def _base_chart(self) -> list[RhythmNote]:
@@ -1159,6 +1168,7 @@ class BCITrackingGameApp:
         self.jaw_conf_var.set(snapshot.jaw_confidence)
         self.jaw_onset_var.set(snapshot.jaw_onset_confidence)
         self.jaw_active_var.set(snapshot.jaw_active_confidence)
+        self.jaw_offset_var.set(snapshot.jaw_offset_confidence)
 
         for message in snapshot.messages:
             self._append_info(f"[control] {message}")

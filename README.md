@@ -14,16 +14,16 @@ The core story is:
 
 If you want the cleanest overview, open these in order:
 
-1. `report/`
-2. `report/model_iteration_map.md`
-3. `results/`
-4. `gui_game_code/`
+1. `FINAL_RUNTIME_SPEC.md`
+2. `report/`
+3. `report/model_iteration_map.md`
+4. `results/`
 5. `live_runs/examples/`
 
 If you want the backend code after that, use:
 
-5. `analysis/`
-6. `models/`
+6. `analysis/`
+7. `models/`
 
 ## Repo Layout
 
@@ -31,14 +31,14 @@ If you want the backend code after that, use:
   - write-up, dataset table, modeling table, and evidence map
 - `results/`
   - benchmark summaries and failed-method comparisons
-- `gui_game_code/`
-  - professor-facing copy of the hybrid GUI/game stack
 - `live_runs/`
   - curated examples plus the full run log history
 - `models/`
   - saved jaw and left/right runtime artifacts
 - `analysis/`
-  - active backend code for the final runtime and cited analyses
+  - source-of-truth code for the final runtime and cited analyses
+- `gui_game_code/`
+  - professor-facing mirror/reference copy of the GUI stack; use `analysis/` as the canonical runtime path
 - `bci_pipeline/`
   - lightweight runtime decoding helper reused by the game code
 
@@ -68,7 +68,7 @@ The current runtime does:
 
 - load the saved jaw artifact
 - load the saved left/right artifact
-- collect baseline and guided calibration data
+- collect a `45 second` baseline and guided `LEFT` / `RIGHT` / `JAW tap` / `HOLD` blocks
 - tune runtime thresholds and decision settings for that session
 - start gameplay
 
@@ -87,6 +87,7 @@ not:
 
 - `jaw`
   - strongest branch and best practical control signal
+  - current promoted runtime artifact uses a `0.12 s` window and `50 ms` click cooldown
 - `left/right LR`
   - weak but non-random offline signal
 - `left/right LRJ`
